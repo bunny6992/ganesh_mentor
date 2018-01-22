@@ -21,11 +21,6 @@ class SWOTController extends Controller
 		} else {
 			$swotModel = new SWOT;
 		}
-
-		$validatedData = $request->validate([
-	        'swot.title' => ['required']
-	    ]);
-
 		$swotModel->title = (isset($swot['title'])) ? $swot['title'] : '';
 		$swotModel->strength = (isset($swot['strength'])) ? $swot['strength'] : '';
 		$swotModel->weakness = (isset($swot['weakness'])) ? $swot['weakness'] : '';

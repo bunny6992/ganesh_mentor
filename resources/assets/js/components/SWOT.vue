@@ -4,22 +4,31 @@
             return {
                 currentSWOT: {},
                 SWOTs: {},
-                showBody: false
+                showBody: false,
+                toastMessage: ''
             }
         },
 
         mounted() {
-            axios.get('/getSWOT')
+            this.getSWOTs();
+        },
+
+        methods: {
+            getSWOTs () {
+                axios.get('/getSWOT')
                 .then((response) => {
                     this.SWOTs = response.data.swots;
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-        },
-
-        methods: {
+            },
             save () {
+                if (!this.currentSWOT.title) {
+                    this.toastMessage = "Title field is required.";
+                    this.showToastMessage();
+                    return;
+                }
                 var data = {
                     swot: this.currentSWOT
                 };
@@ -27,11 +36,18 @@
                     .then((response) => {
                         if (response.data.success) {
                             this.currentSWOT = response.data.swot;
+                            this.toastMessage = "Saved Successfully";
+                            this.showToastMessage();
                         }
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        this.toastMessage = error;
+                        this.showToastMessage();
                     });
+            },
+
+            checkTitle () {
+                this.titleError = false;
             },
 
             addNew () {
@@ -48,6 +64,12 @@
                 });
                 $("#swot" + swot.id).removeClass("btn-dark");
                 $("#swot" + swot.id).addClass("btn-success");
+            },
+
+            showToastMessage (mess) {
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
             }
         }
     }
