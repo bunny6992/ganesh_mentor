@@ -5,7 +5,7 @@
                 currentSWOT: {},
                 SWOTs: {},
                 showBody: false,
-                toastMessage: ''
+                toastMessage: 'Hello SWOT'
             }
         },
 
