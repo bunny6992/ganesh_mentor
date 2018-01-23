@@ -4,7 +4,6 @@
 <swot inline-template>
     <div class="container-fluid" style="margin:5%">
         <div class="row">
-            <div id="snackbar" v-html="toastMessage"></div>
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">SWOT Menu</div>
