@@ -38,6 +38,7 @@
                             this.currentSWOT = response.data.swot;
                             this.toastMessage = "Saved Successfully";
                             this.showToastMessage();
+                            this.getSWOTs();
                         }
                     })
                     .catch(function (error) {
@@ -53,6 +54,10 @@
             addNew () {
                 this.showBody = true;
                 this.currentSWOT = {};
+                _.forEach(this.SWOTs, (swot) => {
+                    $("#swot" + swot.id).removeClass("btn-success");
+                    $("#swot" + swot.id).addClass("btn-dark");
+                });
             },
 
             activeMe (swot) {
