@@ -17,7 +17,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/swot', 'SWOTController@index')->name('swot');
-Route::post('/saveSWOT', 'SWOTController@save');
-Route::get('/getSWOT', 'SWOTController@retrieve');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/swot', 'SWOTController@index')->name('swot');
+	Route::post('/saveSWOT', 'SWOTController@save');
+	Route::get('/getSWOT', 'SWOTController@retrieve');
+});
 
