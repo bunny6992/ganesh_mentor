@@ -10,12 +10,23 @@ import draggable from 'vuedraggable';
               projects: [],
               models: [],
               currentProject: [],
+              editCanvas: {
+                id: '',
+                type: '',
+                title: '',
+                body: ''
+              },
               currentModel: {
                 id: '',
-                strengths: [],
-                weakness: [],
-                opportunities: [],
-                threats: [],
+                partners: [],
+                activities: [],
+                resources: [],
+                propositions: [],
+                relationships: [],
+                channels: [],
+                segments: [],
+                cost: [],
+                revenue: [],
                 brainstorming: [],
                 newCanvas: {
                   type: '',
@@ -24,12 +35,6 @@ import draggable from 'vuedraggable';
                 }
               },
               newCanvas: {
-                type: '',
-                title: '',
-                body: ''
-              },
-              editCanvas: {
-                id: '',
                 type: '',
                 title: '',
                 body: ''
@@ -46,7 +51,7 @@ import draggable from 'vuedraggable';
         methods: {
 
           getProjects() {
-            axios.get('/getSWOTProjects')
+            axios.get('/getProjects')
               .then((response) => {
                   this.projects = response.data;
               })
@@ -73,12 +78,11 @@ import draggable from 'vuedraggable';
 
           resetCurrentModel() {
             this.currentModel = {
-                strengths: [], weakness: [], opportunities: [],
-                threats: [], brainstorming: [],
+                id: '',  partners: [], activities: [], resources: [],
+                propositions: [], relationships: [], channels: [],
+                segments: [], cost: [], revenue: [], brainstorming: [],
                 newCanvas: {
-                  type: '',
-                  title: '',
-                  body: ''
+                  type: '', title: '', body: ''
                 }
               }
           },
@@ -92,7 +96,7 @@ import draggable from 'vuedraggable';
               allowOutsideClick: () => !swal.isLoading()
             }).then((result) => {
               if (result.value) {
-                axios.post('/addNewProject', {name: result.value, type: 'swot'})
+                axios.post('/addNewProject', {name: result.value, type: 'canvas'})
                   .then((response) => {
                       if (response.data.success) {
                           this.projects.push({name: response.data.project.name, id: response.data.project.id, models: []});
@@ -132,7 +136,7 @@ import draggable from 'vuedraggable';
                         this.$swal({
                           type: 'success',
                           title: 'New SWOT Model Added!',
-                          html: 'Name: ' + result.value
+                          html: 'Canvas Name: ' + result.value
                         })
                       }    
                   })
@@ -175,9 +179,10 @@ import draggable from 'vuedraggable';
                   updateItem = item;
                 }
               });
+              console.log(updateItem);
               axios.post('/updateModelItem', {modelId: updateItem.id, type: ev.to.id})
                 .then((response) => {
-                    if (response.data.success) {
+                  if (response.data.success) {
                         this.$modal.hide('edit-canvas');
                         this.$swal({
                           title: 'Updating your Workspace!',

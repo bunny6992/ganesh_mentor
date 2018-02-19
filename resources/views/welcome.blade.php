@@ -79,11 +79,14 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    CoolBunny
+                    Business Mentor
                 </div>
 
                 <div class="links">
                     <a href="/swot">SWOT Analysis</a>
+                </div>
+                <div class="links">
+                    <a href="/business-canvas">Business Canvas</a>
                 </div>
             </div>
         </div>

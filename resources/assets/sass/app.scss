@@ -7,3 +7,40 @@
 
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+* {
+    box-sizing: border-box;
+}
+.col-container {
+    display: table;
+    width: 95%;
+}
+.col {
+    display: table-cell;
+    padding: 16px;
+}
+
+@media only screen and (max-width: 600px) {
+    .col { 
+        display: block;
+        width: 90%;
+    }
+}
+
+.model-items {
+	margin-left: 25px;
+}
+
+.sidebar-active {
+	color: #7386D5;
+    background: #fff;
+}
+
+.panels {
+	width: 90%;
+	margin: 5%;
+}
+
+.panels .panel-heading {
+	text-align: center;
+}
