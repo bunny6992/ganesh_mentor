@@ -101,10 +101,12 @@ import draggable from 'vuedraggable';
                       if (response.data.success) {
                           this.projects.push({name: response.data.project.name, id: response.data.project.id, models: []});
                           this.$swal({
-                            type: 'success',
                             title: 'New Project Added!',
-                            html: 'Project Name: ' + result.value
-                          })
+                            timer: 1000,
+                            onOpen: () => {
+                              this.$swal.showLoading()
+                            }
+                        });
                       }
                   })
                   .catch(function (error) {
@@ -134,10 +136,12 @@ import draggable from 'vuedraggable';
                         this.projects[index].models.push({name: response.data.model.name, id: response.data.model.id});
                         this.currentModel.id = response.data.model.id;           
                         this.$swal({
-                          type: 'success',
-                          title: 'New SWOT Model Added!',
-                          html: 'Canvas Name: ' + result.value
-                        })
+                            title: 'New Model Added!',
+                            timer: 1000,
+                            onOpen: () => {
+                              this.$swal.showLoading()
+                            }
+                        });
                       }    
                   })
                   .catch(function (error) {

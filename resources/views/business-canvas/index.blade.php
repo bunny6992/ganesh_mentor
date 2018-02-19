@@ -87,7 +87,7 @@
 				      <draggable id="partners" v-model="currentModel.partners" style="min-height: 250px;" :options="{group:'people'}" @end="updateSections($event, true)">
 						<div v-for="element in currentModel.partners" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title">@{{element.title}}</h3>
+                                <h3 class="panel-title" v-html="element.title"></h3>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -116,7 +116,7 @@
 							<draggable  id="activities" v-model="currentModel.activities" style="min-height: 250px;" :options="{group:'people'}" @end="updateSections($event, true)">
 								<div v-for="element in currentModel.activities" class="panel panel-info panels">
 									<div class="panel-heading">
-		                                <h3 class="panel-title">@{{element.title}}</h3>
+		                                <h3 class="panel-title" v-html="element.title"></h3>
 		                            </div>
 									<div class="panel-body" v-html="element.body">
 									</div>
@@ -144,7 +144,7 @@
 						<draggable id="resources" v-model="currentModel.resources" style="min-height: 250px;" :options="{group:'people'}" @end="updateSections($event, true)">
 							<div v-for="element in currentModel.resources" class="panel panel-info panels">
 								<div class="panel-heading">
-	                                <h3 class="panel-title">@{{element.title}}</h3>
+	                                <h3 class="panel-title" v-html="element.title"></h3>
 	                            </div>
 								<div class="panel-body" v-html="element.body">
 								</div>
@@ -173,7 +173,7 @@
 					<draggable id="propositions" v-model="currentModel.propositions" style="min-height: 250px;" :options="{group:'people'}" @end="updateSections($event, true)">
 						<div v-for="element in currentModel.propositions" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title">@{{element.title}}</h3>
+                                <h3 class="panel-title" v-html="element.title"></h3>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -202,7 +202,7 @@
 							<draggable id="relationships" v-model="currentModel.relationships" style="min-height: 250px;" :options="{group:'people'}" @end="updateSections($event, true)">
 								<div v-for="element in currentModel.relationships" class="panel panel-info panels">
 									<div class="panel-heading">
-		                                <h3 class="panel-title">@{{element.title}}</h3>
+		                                <h3 class="panel-title" v-html="element.title"></h3>
 		                            </div>
 									<div class="panel-body" v-html="element.body">
 										
@@ -231,7 +231,7 @@
 						<draggable id="channels" v-model="currentModel.channels" style="min-height: 250px;" :options="{group:'people'}" @end="updateSections($event, true)">
 							<div v-for="element in currentModel.channels" class="panel panel-info panels">
 								<div class="panel-heading">
-	                                <h3 class="panel-title">@{{element.title}}</h3>
+	                                <h3 class="panel-title" v-html="element.title"></h3>
 	                            </div>
 								<div class="panel-body" v-html="element.body">
 								</div>
@@ -260,7 +260,7 @@
 					<draggable id="segments" v-model="currentModel.segments" style="min-height: 250px;" :options="{group:'people'}" @end="updateSections($event, true)">
 						<div v-for="element in currentModel.segments" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title">@{{element.title}}</h3>
+                                <h3 class="panel-title" v-html="element.title"></h3>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -290,7 +290,7 @@
 					<draggable id="cost" v-model="currentModel.cost" style="min-height: 250px;" :options="{group:'people'}" @end="updateSections($event, true)">
 						<div v-for="element in currentModel.cost" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title">@{{element.title}}</h3>
+                                <h3 class="panel-title" v-html="element.title"></h3>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -318,7 +318,7 @@
 					<draggable id="revenue" v-model="currentModel.revenue" style="min-height: 250px;" :options="{group:'people'}" @end="updateSections($event, true)">
 						<div v-for="element in currentModel.revenue" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title">@{{element.title}}</h3>
+                                <h3 class="panel-title" v-html="element.title"></h3>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -349,7 +349,7 @@
                     <div class="col-md-6" v-for="element in currentModel.brainstorming">
                         <div class="panel panel-info">
                             <div class="panel-heading">
-                                <h3 class="panel-title">@{{element.title}}</h3>
+                                <h3 class="panel-title" v-html="element.title"></h3>
                             </div>
                             <div class="panel-body" v-html="element.body">
                             </div>
