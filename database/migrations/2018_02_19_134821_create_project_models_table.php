@@ -17,6 +17,7 @@ class CreateProjectModelsTable extends Migration
             $table->increments('id');
             $table->text('name');
             $table->integer('project_id');
+            $table->string('type');
             $table->timestamps();
         });
     }

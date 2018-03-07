@@ -9,14 +9,13 @@ use App\Project;
 use App\ProjectModel;
 use App\ModelItem;
 
-class BusinessCanvas extends Controller
+class GymingTools extends Controller
 {
     public function addNewProject(Request $request)
     {
    
     	$project = new Project;
     	$project->name = $request->input('name');
-    	$project->type = $request->input('type');
     	$project->user_id = Auth::user()->id;
     	$project->save();
 
@@ -31,6 +30,7 @@ class BusinessCanvas extends Controller
     	$project = new ProjectModel;
     	$project->name = $request->input('name');
     	$project->project_id = $request->input('projectId');
+    	$project->type = $request->input('type');
     	$project->save();
 
     	$data['success'] = true;
@@ -68,10 +68,9 @@ class BusinessCanvas extends Controller
 
     public function getProjects(Request $request)
     {	
-    	$projects = Project::where([
-			    ['user_id', '=', Auth::user()->id],
-			    ['type', '=', 'canvas'],
-			])->get();
+    	$projects = Project::where(
+			    'user_id', Auth::user()->id
+			)->get();
     	$data = [];
     	foreach ($projects as $project) {
     		$items = ProjectModel::where('project_id', $project->id)->get();
@@ -93,8 +92,7 @@ class BusinessCanvas extends Controller
     public function getSWOTProjects(Request $request)
     {	
     	$projects = Project::where([
-			    ['user_id', '=', Auth::user()->id],
-			    ['type', '=', 'swot'],
+			    'user_id', '=', Auth::user()->id
 			])->get();
     	$data = [];
     	foreach ($projects as $project) {

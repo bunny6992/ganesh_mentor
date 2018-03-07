@@ -79,14 +79,11 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Business Mentor
+                    Founder's Gym
                 </div>
 
                 <div class="links">
-                    <a href="/swot">SWOT Analysis</a>
-                </div>
-                <div class="links">
-                    <a href="/business-canvas">Business Canvas</a>
+                    <a href="/gyming-tools">Business Workout Tools</a>
                 </div>
             </div>
         </div>

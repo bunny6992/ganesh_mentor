@@ -20,7 +20,7 @@ import VueEditor from 'vue2-editor'
  */
 
 Vue.use(VueSweetalert2);
-Vue.use(VModal);
+Vue.use(VModal, { dynamic: true });
 Vue.use(VueEditor);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));

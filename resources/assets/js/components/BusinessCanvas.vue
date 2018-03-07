@@ -7,6 +7,8 @@ import draggable from 'vuedraggable';
         data: () => {
             return {
               activeItem: '',
+              currentShareProject: '',
+              shareModels: [],
               projects: [],
               models: [],
               currentProject: [],
@@ -60,10 +62,10 @@ import draggable from 'vuedraggable';
               });
           },
 
-          getCanvas(id) {
+          getCanvas(id, modelType) {
             axios.post('/getCanvas', {id: id})
               .then((response) => {
-                  this.resetCurrentModel();
+                  this.setCurrentModel(modelType);
                   this.currentModel.id = id;
                   var items = response.data;
                   _.forEach(items, (item) => {
@@ -74,6 +76,29 @@ import draggable from 'vuedraggable';
               .catch(function (error) {
                   console.log(error);
               });
+          },
+
+          setCurrentModel(type) {
+            if (type == 'canvas') {
+              this.currentModel = {
+                type: 'canvas', id: '',  partners: [], activities: [], resources: [],
+                propositions: [], relationships: [], channels: [],
+                segments: [], cost: [], revenue: [], brainstorming: [],
+                newCanvas: {
+                  type: '', title: '', body: ''
+                }
+              }
+            } else if (type == 'swot') {
+              this.currentModel = {
+                type: 'swot', id: '', strengths: [], weakness: [], opportunities: [],
+                threats: [], brainstorming: [],
+                newCanvas: {
+                  type: '',
+                  title: '',
+                  body: ''
+                }
+              }
+            }
           },
 
           resetCurrentModel() {
@@ -120,21 +145,23 @@ import draggable from 'vuedraggable';
               return this.activeItem === menuItem;
           },
 
-          addNewProjectModel(id, index) {
+          addNewProjectModel(id, index, type) {
             console.log(id);
             this.$swal({
-              title: 'SWOT Model Name',
+              title: 'Name',
               input: 'text',
               showCancelButton: true,
               confirmButtonText: 'Submit',
               allowOutsideClick: () => !swal.isLoading()
             }).then((result) => {
               if (result.value) {
-                axios.post('/addNewProjectModel', {name: result.value, projectId: id})
+                axios.post('/addNewProjectModel', {name: result.value, projectId: id, type: type})
                   .then((response) => {
                       if (response.data.success) {
-                        this.projects[index].models.push({name: response.data.model.name, id: response.data.model.id});
-                        this.currentModel.id = response.data.model.id;           
+                        this.setCurrentModel(type);
+                        this.projects[index].models.push({name: response.data.model.name, id: response.data.model.id, type: response.data.model.type});
+                        this.currentModel.id = response.data.model.id;
+                        this.activeItem = 'item' + this.currentModel.id;           
                         this.$swal({
                             title: 'New Model Added!',
                             timer: 1000,
@@ -196,7 +223,7 @@ import draggable from 'vuedraggable';
                           }
                         });
                         this.getCanvas(this.currentModel.id);
-                        this.resetCurrentModel();
+                        this.setCurrentModel(this.currentModel.type);
                     }
                 })
                 .catch(function (error) {
@@ -270,6 +297,31 @@ import draggable from 'vuedraggable';
                 .catch(function (error) {
                     console.log(error);
                 });
+          },
+
+          shareProject(id) {
+            this.currentShareProject = '';
+            _.forEach(this.projects, (project) => {
+              if (project.id == id) {
+                this.currentShareProject = project;
+              }
+            });
+            _.forEach(this.currentShareProject.models, (model) => {
+              model.permission = 0;
+            });
+            this.currentShareProject.emails = [{value: ''}];
+            this.$modal.show('share-project');
+          },
+
+          share() {
+            console.log(this.currentShareProject);
+          },
+
+          addReceiver() {
+            var test = this.currentShareProject;
+            this.currentShareProject = '';
+            test.emails.push({value: ''});
+            this.currentShareProject = test;
           },
 
           drowdownHREF(id) {

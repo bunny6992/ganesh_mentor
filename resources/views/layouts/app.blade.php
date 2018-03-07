@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Business Mentor') }}</title>
+    <title>{{ config('app.name', "Founders's Gym") }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -31,7 +31,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        Business Mentor
+                        Founder's Gym
                     </a>
                 </div>
 
@@ -55,11 +55,8 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ route('swot') }}">
-                                            SWOT
-                                        </a>
-                                        <a href="/business-canvas">
-                                            Business Canvas
+                                        <a href="/gyming-tools">
+                                            Business Workout Tools
                                         </a>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

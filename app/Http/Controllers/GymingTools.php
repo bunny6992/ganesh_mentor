@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class BusinessCanvas extends Controller
+class GymingTools extends Controller
 {
     public function index()
     {
