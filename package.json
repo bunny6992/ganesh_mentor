@@ -19,6 +19,11 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "tinymce-vue-2": "0.0.5"
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-stage-2": "^6.24.1",
+        "vue-js-modal": "^1.3.10",
+        "vue-sweetalert2": "^1.2.4",
+        "vue2-editor": "^2.4.2",
+        "vuedraggable": "^2.16.0"
     }
 }

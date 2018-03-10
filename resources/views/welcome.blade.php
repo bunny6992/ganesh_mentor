@@ -79,11 +79,11 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    CoolBunny
+                    Founder's Gym
                 </div>
 
                 <div class="links">
-                    <a href="/swot">SWOT Analysis</a>
+                    <a href="/gyming-tools">Business Workout Tools</a>
                 </div>
             </div>
         </div>

@@ -17,7 +17,28 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/swot', 'SWOTController@index')->name('swot');
-Route::post('/saveSWOT', 'SWOTController@save');
-Route::get('/getSWOT', 'SWOTController@retrieve');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/swot', 'SWOTController@index')->name('swot');
+	Route::post('/saveSWOT', 'SWOTController@save');
+	Route::get('/getSWOT', 'SWOTController@retrieve');
+	Route::get('/gyming-tools', 'GymingTools@index');
+	Route::post('/addNewProject', 'Api\GymingTools@addNewProject');
+	Route::post('/addNewProjectModel', 'Api\GymingTools@addNewProjectModel');
+	Route::post('/addNewModelItem', 'Api\GymingTools@addNewModelItem');
+	Route::post('/updateModelItem', 'Api\GymingTools@updateModelItem');
+	Route::get('/getProjects', 'Api\GymingTools@getProjects');
+	Route::post('/getCanvas', 'Api\GymingTools@getCanvas');
+	Route::get('/getSWOTProjects', 'Api\GymingTools@getSWOTProjects');
+	Route::put('/saveModelItem', 'Api\GymingTools@saveModelItem');
+	Route::post('/deleteItem', 'Api\GymingTools@deleteItem');
+	Route::post('/shareProject', 'Api\GymingTools@shareProject');
+
+	Route::get('/gantt-app', 'GanttController@index')->name('get-gantt');
+
+	Route::get('/my-project-resources', 'ResourceController@create')->name('get-project-resources');
+
+	Route::resource('/resource', 'ResourceController');
+
+});
 
