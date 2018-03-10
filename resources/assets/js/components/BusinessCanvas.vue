@@ -308,13 +308,27 @@ import draggable from 'vuedraggable';
             });
             _.forEach(this.currentShareProject.models, (model) => {
               model.permission = 0;
+              model.selected = 0;
             });
             this.currentShareProject.emails = [{value: ''}];
             this.$modal.show('share-project');
           },
 
           share() {
-            console.log(this.currentShareProject);
+            var shareProject = {emails: this.currentShareProject.emails, id: this.currentShareProject.id, models: []};
+            _.forEach(this.currentShareProject.models, (model) => {
+              if (model.selected) {
+                shareProject.models.push(model);
+              }
+            });
+            
+            axios.post('/shareProject', {shareProject})
+              .then((response) => {
+                  
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
           },
 
           addReceiver() {

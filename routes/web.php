@@ -32,5 +32,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/getSWOTProjects', 'Api\GymingTools@getSWOTProjects');
 	Route::put('/saveModelItem', 'Api\GymingTools@saveModelItem');
 	Route::post('/deleteItem', 'Api\GymingTools@deleteItem');
+	Route::post('/shareProject', 'Api\GymingTools@shareProject');
 });
 

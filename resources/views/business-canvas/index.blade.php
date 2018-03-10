@@ -558,7 +558,7 @@
                 <h3>Share Project</h3>
           		<div v-if="currentShareProject">
           			<div class="row">
-          				<div class="col-md-1">Sr. No.</div>
+          				<div class="col-md-1">Select</div>
           				<div class="col-md-4">Model Name</div>
           				<div class="col-md-3">Type</div>
           				<div class="col-md-4">Permission</div>
@@ -567,7 +567,9 @@
           				$serial = 1;
           			@endphp
           			<div class="row" v-for="(model, index) in currentShareProject.models">
-          				<div class="col-md-1" v-html="index + 1"></div>
+          				<div class="col-md-1">
+          					<input type="checkbox" v-model="model.selected" value="1">
+          				</div>
           				<div class="col-md-4" v-html="model.name"></div>
           				<div class="col-md-3" v-html="model.type"></div>
           				<div class="col-md-4">

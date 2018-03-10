@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Project;
+use App\User;
+use App\ShareItem;
 use App\ProjectModel;
 use App\ModelItem;
+use Mail;
 
 class GymingTools extends Controller
 {
@@ -130,5 +133,50 @@ class GymingTools extends Controller
     	}
 
     	return response()->json($data);
+    }
+
+    public function shareProject(Request $request)
+    {
+
+       $shareProject = $request->input('shareProject');
+       if (count($shareProject['models']) == 0 ) {
+            return 'No items selected to share.';
+       }
+       // $models = $request->input('models');
+       // $projectId = $request->input('id');
+
+       foreach ($shareProject['emails'] as $email) {
+           $user = User::where('email', $email)->first();
+           $senderId = Auth::user()->id;
+           if (count($user) > 0) {
+                $data = 'user exists';
+                $receiverId = $user->id;
+                $receiverRegistered = 1;
+           } else {
+                $data = "user doesn't exist";
+                $receiverId = time();
+                $receiverRegistered = 0;
+           }
+
+           foreach ($shareProject['models'] as $model) {
+               $shareModel = new ShareItem;
+               $shareModel->sender_user_id = $senderId;
+               $shareModel->receiver_user_id = $receiverId;
+               $shareModel->model_item_id = $model['id'];
+               $shareModel->project_id = $shareProject['id'];
+               $shareModel->receiver_registered = $receiverRegistered;
+               $shareModel->receiver_email = $email['value'];
+               $shareModel->can_write = $model['permission'];
+               $shareModel->save();
+           }
+
+       }
+        // Mail::raw('Sending emails with Mailgun and Laravel is easy!', function($message)
+        // {
+        //     $message->subject('Mailgun and Laravel are awesome!');
+        //     $message->from('no-reply@website_name.com', 'Website Name');
+        //     $message->to('bunny6992+62@gmail.com');
+        // });
+       return 'Shared sucessfully';
     }
 }

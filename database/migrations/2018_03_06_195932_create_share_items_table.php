@@ -18,6 +18,7 @@ class CreateShareItemsTable extends Migration
             $table->integer('sender_user_id');
             $table->integer('receiver_user_id');
             $table->integer('model_item_id');
+            $table->integer('project_id');
             $table->boolean('receiver_registered');
             $table->boolean('can_write');
             $table->string('receiver_email');
