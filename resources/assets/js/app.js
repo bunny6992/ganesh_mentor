@@ -26,6 +26,7 @@ Vue.use(VueEditor);
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('swot', require('./components/SWOT.vue'));
 Vue.component('business-canvas', require('./components/BusinessCanvas.vue'));
+
 var projectResourceComponent = Vue.component('project-resource', require('./components/ProjectResource.vue'));
 
 const app = new Vue({

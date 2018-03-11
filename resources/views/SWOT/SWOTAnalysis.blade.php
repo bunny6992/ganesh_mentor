@@ -2,19 +2,19 @@
 
 @section('content')
 <swot inline-template>
-    <div class="container-fluid" style="margin:5%">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-heading">SWOT Menu</div>
-                    <div class="panel-body">
-                       <h1>Add new <button class="btn btn-primary" @click="addNew()"><span class="glyphicon glyphicon-plus"></span></button></h1>
-                       <div v-if="SWOTs.length > 0">
-                        <h4 v-for="swot in SWOTs" @click="activeMe(swot)">
-                            <button class="btn btn-xs btn-dark" v-html="swot.title" style="font-size:18px;max-width:95%;overflow: hidden; text-overflow: ellipsis; cursor:pointer" :id="'swot'+swot.id"></button>
-                        </h4>
-                       </div>
-                    </div>
+    <div class="row">
+        <div class="col-md-2" style="height:2000px;">
+        <div class="sidebar-container" style="height:100%;">
+            <nav class="nav-sidebar" id="sidebar" style="height:100%; background-color: #6d7fcc;margin-bottom: 0px !important;">
+                <button type="button" id="sidebarCollapse" class="hidden btn btn-info navbar-btn" @click="toggleSideBar()">
+                    <i class="glyphicon glyphicon-align-left"></i>
+                    <span></span>
+                </button>
+                <div class="sidebar-header">
+                    <a href="/home">
+                        <h3>Business Dashboard</h3>
+                        <strong>BD</strong>
+                    </a>
                 </div>
                 <ul class="list-unstyled components">
                     <li>

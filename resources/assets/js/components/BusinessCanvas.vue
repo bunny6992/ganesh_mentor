@@ -43,6 +43,11 @@ import draggable from 'vuedraggable';
               },
               clickToClose: false,
               vueOptions: {},
+              sharedProjects: [],
+              canEdit: 1,
+              dragOptions: {
+                group: 'people'
+              }
             }
         },
 
@@ -55,14 +60,17 @@ import draggable from 'vuedraggable';
           getProjects() {
             axios.get('/getProjects')
               .then((response) => {
-                  this.projects = response.data;
+                  this.projects = response.data.projects;
+                  var sharedItems = response.data.shared_items;
+                  this.sharedProjects = _.groupBy(sharedItems, 'project_id');
               })
               .catch(function (error) {
                   console.log(error);
               });
           },
 
-          getCanvas(id, modelType) {
+          getCanvas(id, modelType, permission = 1) {
+            this.canEdit = permission;
             axios.post('/getCanvas', {id: id})
               .then((response) => {
                   this.setCurrentModel(modelType);
@@ -321,10 +329,28 @@ import draggable from 'vuedraggable';
                 shareProject.models.push(model);
               }
             });
+
+            this.$modal.hide('share-project');
+            this.$swal({
+              title: 'Sharing your project!',
+              timer: 1000,
+              onOpen: () => {
+                this.$swal.showLoading()
+              }
+            });
             
             axios.post('/shareProject', {shareProject})
               .then((response) => {
-                  
+                  this.$swal({
+                    position: 'top-end',
+                    type: response.data.type,
+                    title: response.data.message,
+                    showConfirmButton: false,
+                    timer: 10000
+                  })
+                  if (response.data.type == 'error') {
+                    this.$modal.show('share-project');
+                  }
               })
               .catch(function (error) {
                   console.log(error);

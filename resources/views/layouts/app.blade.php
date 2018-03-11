@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="/css/sidebar.css">
     {{-- Yield styles here from any partials --}}
     @yield('styles')
-
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 <body>
