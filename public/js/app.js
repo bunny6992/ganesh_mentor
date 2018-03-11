@@ -12488,6 +12488,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue2
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('example-component', __webpack_require__(49));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('swot', __webpack_require__(52));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('business-canvas', __webpack_require__(55));
+
 var projectResourceComponent = __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('project-resource', __webpack_require__(57));
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
@@ -47120,7 +47121,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/ExampleComponent.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ExampleComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47129,9 +47130,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7168fb6a", Component.options)
+    hotAPI.createRecord("data-v-0ca92eac", Component.options)
   } else {
-    hotAPI.reload("data-v-7168fb6a", Component.options)
+    hotAPI.reload("data-v-0ca92eac", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47209,7 +47210,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7168fb6a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-0ca92eac", module.exports)
   }
 }
 
@@ -47239,7 +47240,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/SWOT.vue"
+Component.options.__file = "resources\\assets\\js\\components\\SWOT.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47248,9 +47249,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-19727b60", Component.options)
+    hotAPI.createRecord("data-v-09fec8a0", Component.options)
   } else {
-    hotAPI.reload("data-v-19727b60", Component.options)
+    hotAPI.reload("data-v-09fec8a0", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49116,7 +49117,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/BusinessCanvas.vue"
+Component.options.__file = "resources\\assets\\js\\components\\BusinessCanvas.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -49125,9 +49126,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2c28bb2f", Component.options)
+    hotAPI.createRecord("data-v-3eb50f22", Component.options)
   } else {
-    hotAPI.reload("data-v-2c28bb2f", Component.options)
+    hotAPI.reload("data-v-3eb50f22", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49189,7 +49190,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         body: ''
       },
       clickToClose: false,
-      vueOptions: {}
+      vueOptions: {},
+      sharedProjects: [],
+      canEdit: 1,
+      dragOptions: {
+        group: 'people'
+      }
     };
   },
 
@@ -49203,7 +49209,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       axios.get('/getProjects').then(function (response) {
-        _this.projects = response.data;
+        _this.projects = response.data.projects;
+        var sharedItems = response.data.shared_items;
+        _this.sharedProjects = _.groupBy(sharedItems, 'project_id');
       }).catch(function (error) {
         console.log(error);
       });
@@ -49211,6 +49219,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     getCanvas: function getCanvas(id, modelType) {
       var _this2 = this;
 
+      var permission = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+
+      this.canEdit = permission;
       axios.post('/getCanvas', { id: id }).then(function (response) {
         _this2.setCurrentModel(modelType);
         _this2.currentModel.id = id;
@@ -49456,6 +49467,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.$modal.show('share-project');
     },
     share: function share() {
+      var _this10 = this;
+
       var shareProject = { emails: this.currentShareProject.emails, id: this.currentShareProject.id, models: [] };
       _.forEach(this.currentShareProject.models, function (model) {
         if (model.selected) {
@@ -49463,7 +49476,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       });
 
-      axios.post('/shareProject', { shareProject: shareProject }).then(function (response) {}).catch(function (error) {
+      this.$modal.hide('share-project');
+      this.$swal({
+        title: 'Sharing your project!',
+        timer: 1000,
+        onOpen: function onOpen() {
+          _this10.$swal.showLoading();
+        }
+      });
+
+      axios.post('/shareProject', { shareProject: shareProject }).then(function (response) {
+        _this10.$swal({
+          position: 'top-end',
+          type: response.data.type,
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 10000
+        });
+        if (response.data.type == 'error') {
+          _this10.$modal.show('share-project');
+        }
+      }).catch(function (error) {
         console.log(error);
       });
     },
@@ -49508,7 +49541,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/ProjectResource.vue"
+Component.options.__file = "resources\\assets\\js\\components\\ProjectResource.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -49517,9 +49550,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-786ed9e0", Component.options)
+    hotAPI.createRecord("data-v-5389c4a0", Component.options)
   } else {
-    hotAPI.reload("data-v-786ed9e0", Component.options)
+    hotAPI.reload("data-v-5389c4a0", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -50090,7 +50123,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-786ed9e0", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-5389c4a0", module.exports)
   }
 }
 
