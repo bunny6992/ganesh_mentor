@@ -48957,7 +48957,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         body: ''
       },
       clickToClose: false,
-      vueOptions: {}
+      vueOptions: {},
+      sharedProjects: [],
+      canEdit: 1,
+      dragOptions: {
+        group: 'people'
+      }
     };
   },
 
@@ -48971,7 +48976,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       axios.get('/getProjects').then(function (response) {
-        _this.projects = response.data;
+        _this.projects = response.data.projects;
+        var sharedItems = response.data.shared_items;
+        _this.sharedProjects = _.groupBy(sharedItems, 'project_id');
       }).catch(function (error) {
         console.log(error);
       });
@@ -48979,6 +48986,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     getCanvas: function getCanvas(id, modelType) {
       var _this2 = this;
 
+      var permission = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+
+      this.canEdit = permission;
       axios.post('/getCanvas', { id: id }).then(function (response) {
         _this2.setCurrentModel(modelType);
         _this2.currentModel.id = id;
@@ -49218,12 +49228,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
       _.forEach(this.currentShareProject.models, function (model) {
         model.permission = 0;
+        model.selected = 0;
       });
       this.currentShareProject.emails = [{ value: '' }];
       this.$modal.show('share-project');
     },
     share: function share() {
-      console.log(this.currentShareProject);
+      var _this10 = this;
+
+      var shareProject = { emails: this.currentShareProject.emails, id: this.currentShareProject.id, models: [] };
+      _.forEach(this.currentShareProject.models, function (model) {
+        if (model.selected) {
+          shareProject.models.push(model);
+        }
+      });
+
+      this.$modal.hide('share-project');
+      this.$swal({
+        title: 'Sharing your project!',
+        timer: 1000,
+        onOpen: function onOpen() {
+          _this10.$swal.showLoading();
+        }
+      });
+
+      axios.post('/shareProject', { shareProject: shareProject }).then(function (response) {
+        _this10.$swal({
+          position: 'top-end',
+          type: response.data.type,
+          title: response.data.message,
+          showConfirmButton: false,
+          timer: 10000
+        });
+        if (response.data.type == 'error') {
+          _this10.$modal.show('share-project');
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
     },
     addReceiver: function addReceiver() {
       var test = this.currentShareProject;

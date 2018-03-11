@@ -27,7 +27,13 @@
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
+                            @if (isset($receiver))
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control hidden disabled" name="receiverId" value="{{ $receiver['receiver_user_id'] }}">
+                                    <span class="form-control">{{ $receiver['receiver_email'] }}</span>
+                                    <input id="email" type="email" class="form-control hidden" name="email" value="{{ $receiver['receiver_email'] }}">
+                                </div>
+                            @else
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
@@ -37,6 +43,7 @@
                                     </span>
                                 @endif
                             </div>
+                            @endif
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">

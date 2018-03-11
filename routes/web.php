@@ -34,4 +34,4 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/deleteItem', 'Api\GymingTools@deleteItem');
 	Route::post('/shareProject', 'Api\GymingTools@shareProject');
 });
-
+Route::get('/share/{id}', 'GymingTools@shareProject');
