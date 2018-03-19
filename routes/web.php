@@ -14,7 +14,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/', ['as' => 'home', 'uses' => 'Auth0Controller@index']);
+Route::get('/login', ['as' => 'login', 'uses' => 'Auth0Controller@login']);
+Route::post('/logout', ['as' => 'logout', 'uses' => 'Auth0Controller@logout'])->middleware('auth');
+Route::get('/dump', ['as' => 'dump', 'uses' => 'Auth0Controller@dump', 'middleware' => 'auth'])->middleware('auth');
+
+Route::get('/callback', ['as' => 'logincallback', 'uses' => 'Auth0Controller@callback']);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
