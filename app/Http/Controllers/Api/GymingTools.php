@@ -75,14 +75,34 @@ class GymingTools extends Controller
 			    'user_id', Auth::user()->id
 			)->get();
     	$data = [];
+        $projectsArray = [];
     	foreach ($projects as $project) {
     		$items = ProjectModel::where('project_id', $project->id)->get();
-    		$data[] = [
+    		$data['projects'][] = [
     			'name'   => $project->name,
     			'id'     => $project->id,
     			'models' => $items
     		];
+            $projectsArray[] = $project->id;
     	}
+
+        $shareItems = ShareItem::where('receiver_user_id', Auth::user()->id)->get();
+        $sharedItems = [];
+        foreach ($shareItems as $item) {
+            if (!in_array($item['project_id'], $projectsArray)) {
+                $project = Project::find($item['project_id']);
+                $modelItem = ProjectModel::find($item['model_item_id']);
+                $itemData = [
+                    'project_id'    => $project->id,
+                    'project_name'  => $project->name,
+                    'item'          => $modelItem,
+                    'permission'    => $item['can_write']
+                ];
+                $sharedItems[] = $itemData;
+            }
+        }
+        $data['shared_items'] = $sharedItems;
+
     	return response()->json($data);
     }
 
@@ -137,14 +157,14 @@ class GymingTools extends Controller
 
     public function shareProject(Request $request)
     {
-
        $shareProject = $request->input('shareProject');
+       $data = ['type' => 'error'];
        if (count($shareProject['models']) == 0 ) {
-            return 'No items selected to share.';
+            $data['message'] = 'No items selected to share.';
+            return response()->json($data);
        }
-       // $models = $request->input('models');
-       // $projectId = $request->input('id');
-
+       
+       $tempReceiver = 0;
        foreach ($shareProject['emails'] as $email) {
            $user = User::where('email', $email)->first();
            $senderId = Auth::user()->id;
@@ -153,30 +173,50 @@ class GymingTools extends Controller
                 $receiverId = $user->id;
                 $receiverRegistered = 1;
            } else {
-                $data = "user doesn't exist";
-                $receiverId = time();
+                $receiver = ShareItem::where('receiver_email', $email)->first();
                 $receiverRegistered = 0;
+                if (count($receiver) == 0) {
+                    $data = "user doesn't exist";
+                    $receiverId = time();
+                } else {
+                    $receiverId = $receiver->receiver_user_id;
+                    $tempReceiver = 1;
+                }
+           }
+
+           $modelItemArray = [];
+           if ($tempReceiver || $receiverRegistered) {
+                $models = ShareItem::where('receiver_user_id', $receiverId)->get();
+                foreach ($models as $model) {
+                    $modelItemArray[] = $model->model_item_id;
+                }
            }
 
            foreach ($shareProject['models'] as $model) {
-               $shareModel = new ShareItem;
-               $shareModel->sender_user_id = $senderId;
-               $shareModel->receiver_user_id = $receiverId;
-               $shareModel->model_item_id = $model['id'];
-               $shareModel->project_id = $shareProject['id'];
-               $shareModel->receiver_registered = $receiverRegistered;
-               $shareModel->receiver_email = $email['value'];
-               $shareModel->can_write = $model['permission'];
-               $shareModel->save();
+                if (!in_array($model['id'], $modelItemArray))
+                {
+                    $shareModel = new ShareItem;
+                    $shareModel->sender_user_id = $senderId;
+                    $shareModel->receiver_user_id = $receiverId;
+                    $shareModel->model_item_id = $model['id'];
+                    $shareModel->project_id = $shareProject['id'];
+                    $shareModel->receiver_registered = $receiverRegistered;
+                    $shareModel->receiver_email = $email['value'];
+                    $shareModel->can_write = $model['permission'];
+                    $shareModel->save();
+                }
            }
-
+            $url = "http://" . $_SERVER['SERVER_NAME'] . "/share/" . $receiverId;
+            Mail::send('emails.welcome', ['url' => $url], function($message) use ($email)
+            {    
+                $message->to($email['value'])->subject('This is test e-mail');    
+            });
        }
-        // Mail::raw('Sending emails with Mailgun and Laravel is easy!', function($message)
-        // {
-        //     $message->subject('Mailgun and Laravel are awesome!');
-        //     $message->from('no-reply@website_name.com', 'Website Name');
-        //     $message->to('bunny6992+62@gmail.com');
-        // });
-       return 'Shared sucessfully';
+
+        $data = Mail:: failures();
+        $data['type'] = 'success';
+        $data['message'] = 'Shared Successfully';
+        
+       return response()->json($data);
     }
 }

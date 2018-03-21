@@ -39,6 +39,5 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/my-project-resources', 'ResourceController@create')->name('get-project-resources');
 
 	Route::resource('/resource', 'ResourceController');
-
 });
-
+Route::get('/share/{id}', 'GymingTools@shareProject');

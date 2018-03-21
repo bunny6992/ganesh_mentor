@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\ShareItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -62,10 +63,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        if (isset($data['receiverId'])) {
+            $items = ShareItem::where('receiver_user_id', $data['receiverId'])->get();
+            foreach ($items as $item) {
+                $item->receiver_user_id = $user->id;
+                $item->save();
+            }
+        }
+
+        return $user;
     }
 }
