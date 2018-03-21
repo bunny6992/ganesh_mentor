@@ -10,7 +10,7 @@ return array(
     |
     */
 
-    'domain'        => 'founders-gym.auth0.com',
+    'domain'        => getenv('AUTH0_DOMAIN'),
     /*
     |--------------------------------------------------------------------------
     |   Your APP id
@@ -19,7 +19,7 @@ return array(
     |
     */
 
-    'client_id'     => 'ENgrBZq4VZpKV8c7nyunoTYV4ISPEVJr',
+    'client_id'     => getenv('AUTH0_CLIENT_ID'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return array(
     |   As set in the auth0 administration page
     |
     */
-    'client_secret' => 'aqo8JGRArtRj1tiM7cdTZzlTUQTNLaEUXKSq0MpDvuR0zBqa5mnronA8nVhc22hu',
+    'client_secret' => getenv('AUTH0_CLIENT_SECRET'),
 
    /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return array(
     |
     */
 
-    'redirect_uri'  => 'https://mis-beta.com/callback',
+    'redirect_uri'  => getenv('AUHT0_REDIRECT_URL'),
 
     /*
     |--------------------------------------------------------------------------
