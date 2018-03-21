@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                     Project Resources
@@ -30,6 +30,77 @@
                         </div>
                     </div>
                 </div>
+            </div> -->
+
+            <div class="col-md-12">
+            <button type="button" class="btn btn-link" v-on:click="createResource"><b>Add New Resource</b></button>
+            <small class="text-muted text-center">Double click any field to edit that field row</small>
+                <input class="form-control mr-sm-2" type="search" name="" v-model="filterKey" placeholder="Search...">
+
+                <table class="table table-responsive">
+                  <thead>
+                    <tr>
+                      <th v-for="header in [{key: 'name', label: 'Name'}, {key: 'email', label: 'Email'}, {key: 'phone', label: 'Phone'}, {key: 'groupName', label: 'Group Name'}]" 
+                      @click="sortBy(header.key)" :class="{ active: sortKey == header.key }">
+                          {{ header.label }}
+                          <span class="arrow" :class="sortOrders[header.key] > 0 ? 'asc' : 'dsc'">
+                            </span>
+                      </th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="resource in filteredData">
+                      <td v-on:dblclick="editRes(resource)"> 
+                        <label v-show="editedResource != resource.id">
+                            {{resource.name}}
+                        </label>
+                        <input class="form-control edit" type="text" v-show="editedResource == resource.id"
+                          v-model="resource.name"
+                          v-todo-focus="resource == editedResource"
+                          @keyup.enter="doneEdit(resource)"
+                          @keyup.esc="cancelEdit(resource)">
+                        </td>
+                      <td v-on:dblclick="editRes(resource)">
+                          <label v-show="editedResource != resource.id">
+                            {{resource.email}}
+                        </label>
+                        <input class="form-control edit" type="text" v-show="editedResource == resource.id"
+                          v-model="resource.email"
+                          v-todo-focus="resource == editedResource"
+                          @keyup.enter="doneEdit(resource)"
+                          @keyup.esc="cancelEdit(resource)">
+                      </td>
+                      <td v-on:dblclick="editRes(resource)">
+                          <label v-show="editedResource != resource.id">
+                            {{resource.phone}}
+                        </label>
+                        <input class="form-control edit" type="text" v-show="editedResource == resource.id"
+                          v-model="resource.phone"
+                          v-todo-focus="resource == editedResource"
+                          @keyup.enter="doneEdit(resource)"
+                          @keyup.esc="cancelEdit(resource)">
+                      </td>
+                      <td v-on:dblclick="editRes(resource)">
+                        <label v-show="editedResource != resource.id">
+                            {{resource.groupName}}
+                        </label>
+                        <input class="form-control edit" type="text" v-show="editedResource == resource.id"
+                          v-model="resource.groupName"
+                          v-todo-focus="resource == editedResource"
+                          @keyup.enter="doneEdit(resource)"
+                          @keyup.esc="cancelEdit(resource)">
+                      </td>
+                      <td>
+                          <span 
+                            class="glyphicon glyphicon-trash pull-right"
+                            style="cursor: pointer"
+                            v-on:click="deleteResource(resource.id)">                                
+                            </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
             </div>
         </div>
 
@@ -80,7 +151,11 @@
 <script>
     export default {
         props: ['user', 'projectId'],
-        data () {
+        data: function() {
+            var sortOrders = {};
+            _.forEach(['name', 'email', 'phone', 'groupName'], (item) => {
+                sortOrders[item] = 1;
+            })
             return {
                 resources: [],
                 resource: {
@@ -93,10 +168,60 @@
                 },
                 errors: [],
                 updatable: false,
-                needUpdationId: null
+                needUpdationId: null,
+                sortKey: '',
+                sortOrders: sortOrders,
+                filterKey: '',
+                editedResource: null
+            }
+        },
+        computed: {
+            filteredData: function () {
+            console.log(this.sortKey);
+            var sortKey = this.sortKey
+            var filterKey = this.filterKey && this.filterKey.toLowerCase()
+            var order = this.sortOrders[sortKey] || 1
+            var data = this.resources
+            if (filterKey) {
+                data = data.filter(function (row) {
+                    return Object.keys(row).some(function (key) {
+                        return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+                    })
+                })
+            }
+            if (sortKey) {
+            data = data.slice().sort(function (a, b) {
+            a = a[sortKey]
+            b = b[sortKey]
+            return (a === b ? 0 : a > b ? 1 : -1) * order
+            })
+            }
+            return data
+            }
+        },
+        filters: {
+            capitalize: function (str) {
+                return str.charAt(0).toUpperCase() + str.slice(1)
             }
         },
         methods: {
+            editRes(resource) {
+                this.editedResource = resource.id;
+                this.resource = resource;
+                console.log(this.editedResource);
+            },
+            doneEdit (resource) {
+                this.updateResource(resource.id);
+                this.editedResource = null;
+            },
+            cancelEdit (resource) {
+                this.editedResource = null;
+                this.resetResource();
+            },
+            sortBy: function (key) {
+              this.sortKey = key
+              this.sortOrders[key] = this.sortOrders[key] * -1
+            },
             computedAction () {
                 if (this.updatable === false) {
                     return this.storeResource();
@@ -114,7 +239,7 @@
 
             storeResource () {
                 axios.post(`/resource`, this.resource).then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     $('#myResourceModal').modal('hide');
                     this.getResources();
                 }).catch((error) => {
@@ -167,7 +292,7 @@
 
             getResources () {
                 axios.get(`/resource?projectId=${this.projectId}`, this.resource).then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     this.resources = response.data;
                 }).catch((error) => {
                     console.log(error);
@@ -181,9 +306,16 @@
                 this.resource.groupName = '';
             }
         },
+        directives: {
+            'todo-focus': function (el, binding) {
+                if (binding.value) {
+                    el.focus()
+                }
+            }
+        },
         mounted() {
             this.getResources();    
-            console.log(this.user, this.projectId);
+            console.log(this.filteredData);
         }
     }
 </script>
