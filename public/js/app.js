@@ -47121,7 +47121,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\ExampleComponent.vue"
+Component.options.__file = "resources/assets/js/components/ExampleComponent.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47130,9 +47130,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0ca92eac", Component.options)
+    hotAPI.createRecord("data-v-7168fb6a", Component.options)
   } else {
-    hotAPI.reload("data-v-0ca92eac", Component.options)
+    hotAPI.reload("data-v-7168fb6a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -47210,7 +47210,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-0ca92eac", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-7168fb6a", module.exports)
   }
 }
 
@@ -47240,7 +47240,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\SWOT.vue"
+Component.options.__file = "resources/assets/js/components/SWOT.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -47249,9 +47249,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-09fec8a0", Component.options)
+    hotAPI.createRecord("data-v-19727b60", Component.options)
   } else {
-    hotAPI.reload("data-v-09fec8a0", Component.options)
+    hotAPI.reload("data-v-19727b60", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49117,7 +49117,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\BusinessCanvas.vue"
+Component.options.__file = "resources/assets/js/components/BusinessCanvas.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -49126,9 +49126,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3eb50f22", Component.options)
+    hotAPI.createRecord("data-v-2c28bb2f", Component.options)
   } else {
-    hotAPI.reload("data-v-3eb50f22", Component.options)
+    hotAPI.reload("data-v-2c28bb2f", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49541,7 +49541,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\ProjectResource.vue"
+Component.options.__file = "resources/assets/js/components/ProjectResource.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -49550,9 +49550,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5389c4a0", Component.options)
+    hotAPI.createRecord("data-v-786ed9e0", Component.options)
   } else {
-    hotAPI.reload("data-v-5389c4a0", Component.options)
+    hotAPI.reload("data-v-786ed9e0", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -49647,10 +49647,85 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['user', 'projectId'],
     data: function data() {
+        var sortOrders = {};
+        _.forEach(['name', 'email', 'phone', 'groupName'], function (item) {
+            sortOrders[item] = 1;
+        });
         return {
             resources: [],
             resource: {
@@ -49663,11 +49738,61 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             errors: [],
             updatable: false,
-            needUpdationId: null
+            needUpdationId: null,
+            sortKey: '',
+            sortOrders: sortOrders,
+            filterKey: '',
+            editedResource: null
         };
     },
-
+    computed: {
+        filteredData: function filteredData() {
+            console.log(this.sortKey);
+            var sortKey = this.sortKey;
+            var filterKey = this.filterKey && this.filterKey.toLowerCase();
+            var order = this.sortOrders[sortKey] || 1;
+            var data = this.resources;
+            if (filterKey) {
+                data = data.filter(function (row) {
+                    return Object.keys(row).some(function (key) {
+                        return String(row[key]).toLowerCase().indexOf(filterKey) > -1;
+                    });
+                });
+            }
+            if (sortKey) {
+                data = data.slice().sort(function (a, b) {
+                    a = a[sortKey];
+                    b = b[sortKey];
+                    return (a === b ? 0 : a > b ? 1 : -1) * order;
+                });
+            }
+            return data;
+        }
+    },
+    filters: {
+        capitalize: function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    },
     methods: {
+        editRes: function editRes(resource) {
+            this.editedResource = resource.id;
+            this.resource = resource;
+            console.log(this.editedResource);
+        },
+        doneEdit: function doneEdit(resource) {
+            this.updateResource(resource.id);
+            this.editedResource = null;
+        },
+        cancelEdit: function cancelEdit(resource) {
+            this.editedResource = null;
+            this.resetResource();
+        },
+
+        sortBy: function sortBy(key) {
+            this.sortKey = key;
+            this.sortOrders[key] = this.sortOrders[key] * -1;
+        },
         computedAction: function computedAction() {
             if (this.updatable === false) {
                 return this.storeResource();
@@ -49685,7 +49810,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.post('/resource', this.resource).then(function (response) {
-                console.log(response);
+                // console.log(response);
                 $('#myResourceModal').modal('hide');
                 _this.getResources();
             }).catch(function (error) {
@@ -49742,7 +49867,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this5 = this;
 
             axios.get('/resource?projectId=' + this.projectId, this.resource).then(function (response) {
-                console.log(response);
+                // console.log(response);
                 _this5.resources = response.data;
             }).catch(function (error) {
                 console.log(error);
@@ -49755,9 +49880,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.resource.groupName = '';
         }
     },
+    directives: {
+        'todo-focus': function todoFocus(el, binding) {
+            if (binding.value) {
+                el.focus();
+            }
+        }
+    },
     mounted: function mounted() {
         this.getResources();
-        console.log(this.user, this.projectId);
+        console.log(this.filteredData);
     }
 });
 
@@ -49769,56 +49901,500 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container-fluid" }, [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-4" }, [
-        _c("div", { staticClass: "panel panel-primary" }, [
-          _c("div", { staticClass: "panel-heading" }, [
-            _vm._v("\n                Project Resources\n                "),
-            _c("span", {
-              staticClass: "glyphicon glyphicon-plus pull-right",
-              staticStyle: { cursor: "pointer" },
-              on: { click: _vm.createResource }
-            })
+      _c("div", { staticClass: "col-md-12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-link",
+            attrs: { type: "button" },
+            on: { click: _vm.createResource }
+          },
+          [_c("b", [_vm._v("Add New Resource")])]
+        ),
+        _vm._v(" "),
+        _c("small", { staticClass: "text-muted text-center" }, [
+          _vm._v("Double click any field to edit that field row")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.filterKey,
+              expression: "filterKey"
+            }
+          ],
+          staticClass: "form-control mr-sm-2",
+          attrs: { type: "search", name: "", placeholder: "Search..." },
+          domProps: { value: _vm.filterKey },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.filterKey = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("table", { staticClass: "table table-responsive" }, [
+          _c("thead", [
+            _c(
+              "tr",
+              [
+                _vm._l(
+                  [
+                    { key: "name", label: "Name" },
+                    { key: "email", label: "Email" },
+                    { key: "phone", label: "Phone" },
+                    { key: "groupName", label: "Group Name" }
+                  ],
+                  function(header) {
+                    return _c(
+                      "th",
+                      {
+                        class: { active: _vm.sortKey == header.key },
+                        on: {
+                          click: function($event) {
+                            _vm.sortBy(header.key)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                      " +
+                            _vm._s(header.label) +
+                            "\n                      "
+                        ),
+                        _c("span", {
+                          staticClass: "arrow",
+                          class: _vm.sortOrders[header.key] > 0 ? "asc" : "dsc"
+                        })
+                      ]
+                    )
+                  }
+                ),
+                _vm._v(" "),
+                _c("th")
+              ],
+              2
+            )
           ]),
           _vm._v(" "),
           _c(
-            "div",
-            { staticClass: "panel-body" },
-            _vm._l(_vm.resources, function(resource) {
-              return _c("div", {}, [
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(resource.name) +
-                    "\n                        "
-                ),
-                _c("span", {
-                  staticClass: "glyphicon glyphicon-minus pull-right",
-                  staticStyle: { cursor: "pointer" },
-                  on: {
-                    click: function($event) {
-                      _vm.deleteResource(resource.id)
-                    }
-                  }
-                }),
-                _vm._v(" "),
+            "tbody",
+            _vm._l(_vm.filteredData, function(resource) {
+              return _c("tr", [
                 _c(
-                  "span",
+                  "td",
                   {
-                    staticClass: "glyphicon glyphicon-edit pull-right",
-                    staticStyle: { cursor: "pointer" },
                     on: {
-                      click: function($event) {
-                        _vm.editResource(resource.id)
+                      dblclick: function($event) {
+                        _vm.editRes(resource)
                       }
                     }
                   },
                   [
-                    _vm._v(
-                      "\n                         \n                        "
-                    )
+                    _c(
+                      "label",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.editedResource != resource.id,
+                            expression: "editedResource != resource.id"
+                          }
+                        ]
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(resource.name) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editedResource == resource.id,
+                          expression: "editedResource == resource.id"
+                        },
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: resource.name,
+                          expression: "resource.name"
+                        },
+                        {
+                          name: "todo-focus",
+                          rawName: "v-todo-focus",
+                          value: resource == _vm.editedResource,
+                          expression: "resource == editedResource"
+                        }
+                      ],
+                      staticClass: "form-control edit",
+                      attrs: { type: "text" },
+                      domProps: { value: resource.name },
+                      on: {
+                        keyup: [
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            _vm.doneEdit(resource)
+                          },
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "esc",
+                                27,
+                                $event.key,
+                                "Escape"
+                              )
+                            ) {
+                              return null
+                            }
+                            _vm.cancelEdit(resource)
+                          }
+                        ],
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(resource, "name", $event.target.value)
+                        }
+                      }
+                    })
                   ]
-                )
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    on: {
+                      dblclick: function($event) {
+                        _vm.editRes(resource)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "label",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.editedResource != resource.id,
+                            expression: "editedResource != resource.id"
+                          }
+                        ]
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(resource.email) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editedResource == resource.id,
+                          expression: "editedResource == resource.id"
+                        },
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: resource.email,
+                          expression: "resource.email"
+                        },
+                        {
+                          name: "todo-focus",
+                          rawName: "v-todo-focus",
+                          value: resource == _vm.editedResource,
+                          expression: "resource == editedResource"
+                        }
+                      ],
+                      staticClass: "form-control edit",
+                      attrs: { type: "text" },
+                      domProps: { value: resource.email },
+                      on: {
+                        keyup: [
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            _vm.doneEdit(resource)
+                          },
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "esc",
+                                27,
+                                $event.key,
+                                "Escape"
+                              )
+                            ) {
+                              return null
+                            }
+                            _vm.cancelEdit(resource)
+                          }
+                        ],
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(resource, "email", $event.target.value)
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    on: {
+                      dblclick: function($event) {
+                        _vm.editRes(resource)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "label",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.editedResource != resource.id,
+                            expression: "editedResource != resource.id"
+                          }
+                        ]
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(resource.phone) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editedResource == resource.id,
+                          expression: "editedResource == resource.id"
+                        },
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: resource.phone,
+                          expression: "resource.phone"
+                        },
+                        {
+                          name: "todo-focus",
+                          rawName: "v-todo-focus",
+                          value: resource == _vm.editedResource,
+                          expression: "resource == editedResource"
+                        }
+                      ],
+                      staticClass: "form-control edit",
+                      attrs: { type: "text" },
+                      domProps: { value: resource.phone },
+                      on: {
+                        keyup: [
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            _vm.doneEdit(resource)
+                          },
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "esc",
+                                27,
+                                $event.key,
+                                "Escape"
+                              )
+                            ) {
+                              return null
+                            }
+                            _vm.cancelEdit(resource)
+                          }
+                        ],
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(resource, "phone", $event.target.value)
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    on: {
+                      dblclick: function($event) {
+                        _vm.editRes(resource)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "label",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.editedResource != resource.id,
+                            expression: "editedResource != resource.id"
+                          }
+                        ]
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(resource.groupName) +
+                            "\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.editedResource == resource.id,
+                          expression: "editedResource == resource.id"
+                        },
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: resource.groupName,
+                          expression: "resource.groupName"
+                        },
+                        {
+                          name: "todo-focus",
+                          rawName: "v-todo-focus",
+                          value: resource == _vm.editedResource,
+                          expression: "resource == editedResource"
+                        }
+                      ],
+                      staticClass: "form-control edit",
+                      attrs: { type: "text" },
+                      domProps: { value: resource.groupName },
+                      on: {
+                        keyup: [
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            _vm.doneEdit(resource)
+                          },
+                          function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k(
+                                $event.keyCode,
+                                "esc",
+                                27,
+                                $event.key,
+                                "Escape"
+                              )
+                            ) {
+                              return null
+                            }
+                            _vm.cancelEdit(resource)
+                          }
+                        ],
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(resource, "groupName", $event.target.value)
+                        }
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("td", [
+                  _c("span", {
+                    staticClass: "glyphicon glyphicon-trash pull-right",
+                    staticStyle: { cursor: "pointer" },
+                    on: {
+                      click: function($event) {
+                        _vm.deleteResource(resource.id)
+                      }
+                    }
+                  })
+                ])
               ])
             })
           )
@@ -50123,7 +50699,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5389c4a0", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-786ed9e0", module.exports)
   }
 }
 
