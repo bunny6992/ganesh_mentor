@@ -184,7 +184,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -201,7 +201,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -228,7 +228,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -245,7 +245,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -271,7 +271,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -288,7 +288,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -315,7 +315,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -333,7 +333,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -360,7 +360,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -378,7 +378,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -404,7 +404,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -421,7 +421,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -448,7 +448,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -466,7 +466,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -494,7 +494,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -512,7 +512,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -538,7 +538,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -556,7 +556,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -585,7 +585,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -604,7 +604,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -637,7 +637,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -654,7 +654,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -680,7 +680,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -697,7 +697,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -725,7 +725,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -744,7 +744,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -770,7 +770,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -787,7 +787,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -818,7 +818,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
@@ -836,7 +836,7 @@
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
-							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							            <button class="btn btn-xs btn-success" @click="editItem(element)" style="border-radius:50%; margin:7px; cursor:pointer;">
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>

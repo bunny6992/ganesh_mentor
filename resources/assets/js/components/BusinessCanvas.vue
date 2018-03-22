@@ -334,7 +334,7 @@ import draggable from 'vuedraggable';
             })
           },
 
-          editItem(element, index) {
+          editItem(element) {
             // let formattedBody = element.body.replace(/"/g, "'");
             this.editCanvas = {
               id: element.id,
@@ -342,7 +342,6 @@ import draggable from 'vuedraggable';
               title: element.title,
               body: element.body,
               modelId: this.currentModel.id,
-              index: index
             }
             this.$modal.show('edit-canvas');
           },
