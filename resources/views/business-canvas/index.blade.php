@@ -119,7 +119,7 @@
         		Project dock is empty.<br> Navigate to a project<br> through top-right menu bar and it will show here.
         	</p>
         </div>
-        <div v-if="currentProject.id">
+        <div v-show="currentProject.id">
             <ul class="list-unstyled">
             	<div style="text-align: center">
             		<button class="btn btn-default add-model-button" style="border-radius: 50%" @click="showAddNewModel">
@@ -181,7 +181,7 @@
 							<div v-for="element in currentModel.partners" class="panel panel-info panels">
 								<div class="panel-heading">
 									<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -198,7 +198,7 @@
 						<div v-for="element in currentModel.partners" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -225,7 +225,7 @@
 									<div v-for="element in currentModel.activities" class="panel panel-info panels">
 										<div class="panel-heading">
 											<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -242,7 +242,7 @@
 								<div v-for="element in currentModel.activities" class="panel panel-info panels">
 									<div class="panel-heading">
 										<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -268,7 +268,7 @@
 								<div v-for="element in currentModel.resources" class="panel panel-info panels">
 									<div class="panel-heading">
 										<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -285,7 +285,7 @@
 							<div v-for="element in currentModel.resources" class="panel panel-info panels">
 								<div class="panel-heading">
 									<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -312,7 +312,7 @@
 							<div v-for="element in currentModel.propositions" class="panel panel-info panels">
 								<div class="panel-heading">
 									<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -330,7 +330,7 @@
 						<div v-for="element in currentModel.propositions" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -357,7 +357,7 @@
 									<div v-for="element in currentModel.relationships" class="panel panel-info panels">
 										<div class="panel-heading">
 											<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -375,7 +375,7 @@
 								<div v-for="element in currentModel.relationships" class="panel panel-info panels">
 									<div class="panel-heading">
 										<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -401,7 +401,7 @@
 								<div v-for="element in currentModel.channels" class="panel panel-info panels">
 									<div class="panel-heading">
 										<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -418,7 +418,7 @@
 							<div v-for="element in currentModel.channels" class="panel panel-info panels">
 								<div class="panel-heading">
 									<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -445,7 +445,7 @@
 							<div v-for="element in currentModel.segments" class="panel panel-info panels">
 								<div class="panel-heading">
 									<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -463,7 +463,7 @@
 						<div v-for="element in currentModel.segments" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -491,7 +491,7 @@
 							<div v-for="element in currentModel.cost" class="panel panel-info panels">
 								<div class="panel-heading">
 									<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -509,7 +509,7 @@
 						<div v-for="element in currentModel.cost" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -535,7 +535,7 @@
 							<div v-for="element in currentModel.revenue" class="panel panel-info panels">
 								<div class="panel-heading">
 									<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -553,7 +553,7 @@
 						<div v-for="element in currentModel.revenue" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -582,7 +582,7 @@
 	                        <div class="panel panel-info">
 	                            <div class="panel-heading">
 	                            	<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -601,7 +601,7 @@
 						<div v-for="element in currentModel.brainstorming" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -634,7 +634,7 @@
 	                        <div v-for="(element, index) in currentModel.strengths" class="panel panel-info panels">
 	                            <div class="panel-heading">
 	                            	<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -651,7 +651,7 @@
 						<div v-for="element in currentModel.strengths" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -677,7 +677,7 @@
 	                        <div v-for="element in currentModel.weakness" class="panel panel-info panels">
 	                            <div class="panel-heading">
 	                            	<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -694,7 +694,7 @@
 						<div v-for="element in currentModel.weakness" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -722,7 +722,7 @@
 							<div v-for="element in currentModel.threats" class="panel panel-info panels">
 							    <div class="panel-heading">
 							    	<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -741,7 +741,7 @@
 						<div v-for="element in currentModel.threats" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -767,7 +767,7 @@
 	                        <div v-for="element in currentModel.opportunities" class="panel panel-info panels">
 	                            <div class="panel-heading">
 	                            	<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -784,7 +784,7 @@
 						<div v-for="element in currentModel.opportunities" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -815,7 +815,7 @@
 	                        <div class="panel panel-info">
 	                            <div class="panel-heading">
 	                            	<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
@@ -833,7 +833,7 @@
 						<div v-for="element in currentModel.brainstorming" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
-							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
 							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">

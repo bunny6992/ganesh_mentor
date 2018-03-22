@@ -302,7 +302,7 @@ import draggable from 'vuedraggable';
             }
           },
 
-          deleteItem(id) {
+          deleteItem(id, type) {
             this.$swal({
               title: 'Are you sure?',
               text: "You won't be able to revert this!",
@@ -323,8 +323,8 @@ import draggable from 'vuedraggable';
                             this.$swal.showLoading()
                           }
                         });
-                        this.getCanvas(this.currentModel.id);
-                        this.resetCurrentModel();
+                        this.getCanvas(this.currentModel.id, type, 1);
+                        //this.resetCurrentModel();
                       }    
                   })
                   .catch(function (error) {
@@ -348,7 +348,6 @@ import draggable from 'vuedraggable';
           },
 
           saveCanvas() {
-            console.log(this.editCanvas);
             axios.put('/saveModelItem', {id: this.editCanvas.id, body: this.editCanvas.body, title: this.editCanvas.title})
                 .then((response) => {
                     if (response.data.success) {
@@ -360,8 +359,8 @@ import draggable from 'vuedraggable';
                             this.$swal.showLoading()
                           }
                         });
-                        this.getCanvas(this.currentModel.id);
-                        this.resetCurrentModel();
+                        
+                        this.getCanvas(this.currentModel.id, this.currentModel.type, 1);
                     }
                 })
                 .catch(function (error) {
