@@ -114,6 +114,11 @@
                         <strong>BD</strong>
                     </a>
                 </div>
+        <div v-show="!currentProject.id">
+        	<p style="color: white; margin: 10px; padding: 10px; border:2px dashed darkgray;">
+        		Project dock is empty.<br> Navigate to a project<br> through top-right menu bar and it will show here.
+        	</p>
+        </div>
         <div v-if="currentProject.id">
             <ul class="list-unstyled">
             	<div style="text-align: center">
@@ -151,17 +156,12 @@
 	            </li>
             </ul>
         </div>
-        <div v-else>
-        	<p style="color: white; margin: 10px; padding: 10px; border:2px dashed darkgray;">
-        		Project dock is empty.<br> Navigate to a project<br> through top-right menu bar and it will show here.
-        	</p>
-        </div>
             </nav>
         </div>
         <div v-show="!currentModel.type" style="text-align: center; margin: 100px"> 
             <h2>Business Workout Gyming Tools</h2>
             <img src="/images/analysis.jpg">
-            <h4>Add flying colors to your ideas by providing them the intense workouts they require using our gyming tools.<br> Start by adding a new Project using the sidebar menu or navigate to a current one.</h4>
+            <h4>Add flying colors to your ideas by providing them the intense workouts they require using our gyming tools.<br> Start by adding a new Project or navigate to a current one using the menu at top right.</h4>
         </div>
         <div class="col-md-10" v-if="currentModel.type == 'canvas'" style="margin-top: 50px;">
         	<div style="text-align: center">
