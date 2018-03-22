@@ -56,16 +56,16 @@
 										  </div>
 										{{-- </div> --}}
                                     </li>
-                                    <li class="project-dropdown">
+                                    {{-- <li class="project-dropdown">
                                     	
 										  <a href="#">Shared Projects</a>
 										  <div class="dropdown-content shared-dropdown">
 										  	<a v-if="sharedProjects">
                                     		Nothing's here yet
                                     	</a>
-										    <a v-for="(project, index) in sharedProjects">@{{ project[0].project_name }}</a>
+										    <a v-for="(project, index) in sharedProjects" @click="setCurrentProject(project)">@{{ project[0].project_name }}</a>
 										  </div>
-                                    </li>
+                                    </li> --}}
                                     <li>
 				                        <a href="#">
 				                            <i class="glyphicon glyphicon-tag"></i>
@@ -157,6 +157,11 @@
         	</p>
         </div>
             </nav>
+        </div>
+        <div v-show="!currentModel.type" style="text-align: center; margin: 100px"> 
+            <h2>Business Workout Gyming Tools</h2>
+            <img src="/images/analysis.jpg">
+            <h4>Add flying colors to your ideas by providing them the intense workouts they require using our gyming tools.<br> Start by adding a new Project using the sidebar menu or navigate to a current one.</h4>
         </div>
         <div class="col-md-10" v-if="currentModel.type == 'canvas'" style="margin-top: 50px;">
         	<div style="text-align: center">
@@ -842,11 +847,6 @@
 					</div>
                 </div>
             </div>
-        </div>
-		<div v-else style="text-align: center; margin: 100px"> 
-            <h2>Business Workout Gyming Tools</h2>
-            <img src="/images/analysis.jpg">
-            <h4>Add flying colors to your ideas by providing them the intense workouts they require using our gyming tools.<br> Start by adding a new Project using the sidebar menu or navigate to a current one.</h4>
         </div>
 		<modal name="new-canvas" :click-to-close="clickToClose" scrollable height="auto" width="50%">
 			<div style="margin:20px">
