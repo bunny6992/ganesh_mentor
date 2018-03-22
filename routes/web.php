@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/saveModelItem', 'Api\GymingTools@saveModelItem');
 	Route::post('/deleteItem', 'Api\GymingTools@deleteItem');
 	Route::post('/shareProject', 'Api\GymingTools@shareProject');
-
+	Route::post('/saveNewModelName', 'Api\GymingTools@saveNewModelName');
 	Route::get('/gantt-app', 'GanttController@index')->name('get-gantt');
 
 	Route::get('/my-project-resources', 'ResourceController@create')->name('get-project-resources');

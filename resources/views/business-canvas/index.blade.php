@@ -1,11 +1,109 @@
-@extends('layouts.app')
+@extends('layouts.index')
 
 @section('content')
 	
 	<business-canvas inline-template>        
 	<div class="row">
-		<div class="col-md-2" style="height: 2000px">
-			<nav id="sidebar" style="background-color: #6d7fcc;margin-bottom: 0px !important; height:100%;">
+			<nav class="navbar navbar-default navbar-static-top" style="margin:0px">
+            <div class="container">
+                <div class="navbar-header">
+
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Branding Image -->
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        Founder's Gym
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav">
+                        &nbsp;
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right gym-navbar">
+                        <!-- Authentication Links -->
+                        @guest
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                    {{ Auth::user()->name }}
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="/gyming-tools">
+                                            Business Workout Tools
+                                        </a>
+                                    </li>
+                                    <li class="project-dropdown">
+                                    	{{-- <div> --}}
+										  <a href="#">My Projects</a>
+										  <div class="dropdown-content my-dropdown">
+										    <a href="#" @click="addNewProject()">Add New</a>
+										    <a v-for="(project, index) in projects" @click="setCurrentProject(project)">@{{ project.name }}
+										    </a>
+										  </div>
+										{{-- </div> --}}
+                                    </li>
+                                    <li class="project-dropdown">
+                                    	
+										  <a href="#">Shared Projects</a>
+										  <div class="dropdown-content shared-dropdown">
+										  	<a v-if="sharedProjects">
+                                    		Nothing's here yet
+                                    	</a>
+										    <a v-for="(project, index) in sharedProjects">@{{ project[0].project_name }}</a>
+										  </div>
+                                    </li>
+                                    <li>
+				                        <a href="#">
+				                            <i class="glyphicon glyphicon-tag"></i>
+				                            About
+				                        </a>
+				                    </li>
+				                    <li>
+				                        <a href="#">
+				                            <i class="glyphicon glyphicon-paperclip"></i>
+				                            FAQ
+				                        </a>
+				                    </li>
+				                    <li>
+				                        <a href="#">
+				                            <i class="glyphicon glyphicon-send"></i>
+				                            Contact
+				                        </a>
+				                    </li>
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav>
+		<div class="col-md-2">
+			<nav id="sidebar" style="background-color: #6d7fcc;margin-bottom: 0px !important; height:2000px;">
                 <button type="button" id="sidebarCollapse" class="hidden btn btn-info navbar-btn" @click="toggleSideBar()">
                     <i class="glyphicon glyphicon-align-left"></i>
                     <span></span>
@@ -16,107 +114,48 @@
                         <strong>BD</strong>
                     </a>
                 </div>
-                <ul class="list-unstyled components">
-                    <li>
-                        <a href="#projectSubmenu" data-toggle="collapse" aria-expanded="false">
-                            <i class="glyphicon glyphicon-folder-open"></i>
-                            My Projects
-                            <span class="glyphicon glyphicon-plus"  style="margin-left: 7px" @click="addNewProject()"></span>
-                        </a>
-                        <ul class="collapse list-unstyled" id="projectSubmenu">
-                        	<div v-for="(project, index) in projects">
-	                        	<a :href="drowdownHREF(project.id)" data-toggle="collapse" aria-expanded="false">
-		                            <i class="glyphicon glyphicon-book"></i>
-		                            @{{ project.name }}
-		                            <span class="glyphicon glyphicon-share" style="margin-left: 7px" @click="shareProject(project.id)"></span>
-		                        </a>
-		                        <ul class="collapse list-unstyled model-items" :id="drowdownId(project.id)">
-		                        	<a href="#swotsSubmenu" data-toggle="collapse" aria-expanded="false">
-			                            <i class="glyphicon glyphicon-book"></i>
-			                            SWOT
-			                            <span @click="addNewProjectModel(project.id, index, 'swot')" class="glyphicon glyphicon-plus"  style="margin-left: 7px"></span>
-			                        </a>
-			                        <ul class="collapse list-unstyled model-items" id="swotsSubmenu">
-			                        	<li v-for="model in project.models">
-			                        		<a @click="getCanvas(model.id, 'swot')" :class="{ 'sidebar-active': isActive('item' + model.id) }" v-if="model.type == 'swot'">@{{ model.name }}</a>
-			                        	</li>
-			                        </ul>
-			                        <a href="#canvasSubmenu" data-toggle="collapse" aria-expanded="false">
-			                            <i class="glyphicon glyphicon-book"></i>
-			                            Business Canvas
-			                            <span @click="addNewProjectModel(project.id, index, 'canvas')" class="glyphicon glyphicon-plus"  style="margin-left: 7px"></span>
-			                        </a>
-			                        <ul class="collapse list-unstyled model-items" id="canvasSubmenu">
-			                        	<li v-for="model in project.models">
-			                        		<a @click="getCanvas(model.id, 'canvas')" :class="{ 'sidebar-active': isActive('item' + model.id) }" v-if="model.type == 'canvas'">@{{ model.name }}</a>
-			                        	</li>
-			                        </ul>
-			                        <a :href="'/gantt-app?projectName=' + project.name + '&projectId=' + project.id" target="_blank">
-                                        <i class="glyphicon glyphicon-equalizer"></i>
-                                        Gantt Chart
-                                    </a>
-
-                                    <a :href="'/my-project-resources?projectName=' + project.name + '&projectId=' + project.id" target="_blank">
-                                        <i class="glyphicon glyphicon-user"></i>
-                                        My Resources
-                                    </a>
-		                        </ul>
-	                        </div>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#sharedProjectSubmenu" data-toggle="collapse" aria-expanded="false">
-                            <i class="glyphicon glyphicon-folder-open"></i>
-                            Shared Projects
-                        </a>
-                        <ul class="collapse list-unstyled" id="sharedProjectSubmenu">
-                        	<div v-for="(project, index) in sharedProjects">
-	                        	<a :href="drowdownHREF(project[0].project_id)" data-toggle="collapse" aria-expanded="false">
-		                            <i class="glyphicon glyphicon-book"></i>
-		                            @{{ project[0].project_name }}
-		                        </a>
-		                        <ul class="collapse list-unstyled model-items" :id="drowdownId(project[0].project_id)">
-		                        	<a href="#sharedSwotsSubmenu" data-toggle="collapse" aria-expanded="false">
-			                            <i class="glyphicon glyphicon-book"></i>
-			                            SWOT
-			                        </a>
-			                        <ul class="collapse list-unstyled model-items" id="sharedSwotsSubmenu">
-			                        	<li v-for="item in project">
-			                        		<a @click="getCanvas(item.item.id, 'swot', item.permission)" :class="{ 'sidebar-active': isActive('item' + item.item.id) }" v-if="item.item.type == 'swot'">@{{ item.item.name }}</a>
-			                        	</li>
-			                        </ul>
-			                        <a href="#sharedCanvasSubmenu" data-toggle="collapse" aria-expanded="false">
-			                            <i class="glyphicon glyphicon-book"></i>
-			                            Business Canvas
-			                        </a>
-			                        <ul class="collapse list-unstyled model-items" id="sharedCanvasSubmenu">
-			                        	<li v-for="item in project">
-			                        		<a @click="getCanvas(item.item.id, 'canvas', item.permission)" :class="{ 'sidebar-active': isActive('item' + item.item.id) }" v-if="item.item.type == 'canvas'">@{{ item.item.name }}</a>
-			                        	</li>
-			                        </ul>
-		                        </ul>
-	                        </div>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="glyphicon glyphicon-tag"></i>
-                            About
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="glyphicon glyphicon-paperclip"></i>
-                            FAQ
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="glyphicon glyphicon-send"></i>
-                            Contact
-                        </a>
-                    </li>
-                </ul>
+        <div v-if="currentProject.id">
+            <ul class="list-unstyled">
+            	<div style="text-align: center">
+            		<button class="btn btn-default add-model-button" style="border-radius: 50%" @click="showAddNewModel">
+            			<span class="glyphicon glyphicon-plus"></span>
+            		</button>
+            	</div>
+                <li class="project-dropdown">
+					  <a href="#" v-if="showModelDropdown('swot')">SWOTS</a>
+					  <div class="dropdown-content swot-dropdown">
+					    <a href="#" @click="addNewProjectModel('swot')">Add New</a>
+					    <a v-for="(model, index) in currentProject.models" v-if="model.type=='swot'" @click="getCanvas(model.id, 'swot', '1')">@{{ model.name }}
+					    </a>
+					  </div>
+                </li>
+                <li class="project-dropdown">
+					  <a href="#" v-if="showModelDropdown('canvas')">Business Canvas</a>
+					  <div class="dropdown-content canvas-dropdown">
+					    <a href="#" @click="addNewProjectModel('canvas')">Add New</a>
+					    <a v-for="(model, index) in currentProject.models" v-if="model.type=='canvas'" @click="getCanvas(model.id, 'canvas', '1')">@{{ model.name }}
+					    </a>
+					  </div>
+                </li>
+                <li>
+	                <a :href="'/gantt-app?projectName=' + currentProject.name + '&projectId=' + currentProject.id" target="_blank">
+	                    <i class="glyphicon glyphicon-equalizer"></i>
+	                    Gantt Chart
+	                </a>
+	            </li>
+	            <li>
+	                <a :href="'/my-project-resources?projectName=' + currentProject.name + '&projectId=' + currentProject.id" target="_blank">
+	                    <i class="glyphicon glyphicon-user"></i>
+	                    My Resources
+	                </a>
+	            </li>
+            </ul>
+        </div>
+        <div v-else>
+        	<p style="color: white; margin: 10px; padding: 10px; border:2px dashed darkgray;">
+        		Project dock is empty.<br> Navigate to a project<br> through top-right menu bar and it will show here.
+        	</p>
+        </div>
             </nav>
         </div>
         <div class="col-md-10" v-if="currentModel.type == 'canvas'" style="margin-top: 50px;">
@@ -136,12 +175,7 @@
 						<draggable id="partners" v-model="currentModel.partners" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 							<div v-for="element in currentModel.partners" class="panel panel-info panels">
 								<div class="panel-heading">
-							        <h3 class="panel-title" v-html="element.title"></h3>
-							    </div>
-								<div class="panel-body" v-html="element.body">
-								</div>
-								<div class="panel-footer" style="text-align:center; height:28px">
-									<span style="position:relative; bottom: 15px">
+									<span>
 							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
@@ -149,6 +183,8 @@
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
+							    </div>
+								<div class="panel-body" v-html="element.body">
 								</div>
 							</div>
 						</draggable>
@@ -156,7 +192,14 @@
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.partners" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -176,19 +219,16 @@
 								<draggable  id="activities" v-model="currentModel.activities" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 									<div v-for="element in currentModel.activities" class="panel panel-info panels">
 										<div class="panel-heading">
-			                                <h3 class="panel-title" v-html="element.title"></h3>
+											<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 			                            </div>
 										<div class="panel-body" v-html="element.body">
-										</div>
-										<div class="panel-footer" style="text-align:center; height:28px">
-											<span style="position:relative; bottom: 15px">
-			                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-			                                        <span class="glyphicon glyphicon-trash"></span>
-			                                    </button>
-			                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-			                                        <span class="glyphicon glyphicon-pencil"></span>
-			                                    </button>
-			                                </span>
 										</div>
 									</div>
 								</draggable>
@@ -196,7 +236,14 @@
 							<div v-else>
 								<div v-for="element in currentModel.activities" class="panel panel-info panels">
 									<div class="panel-heading">
-		                                <h3 class="panel-title" v-html="element.title"></h3>
+										<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 		                            </div>
 									<div class="panel-body" v-html="element.body">
 									</div>
@@ -215,19 +262,16 @@
 							<draggable id="resources" v-model="currentModel.resources" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 								<div v-for="element in currentModel.resources" class="panel panel-info panels">
 									<div class="panel-heading">
-		                                <h3 class="panel-title" v-html="element.title"></h3>
+										<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 		                            </div>
 									<div class="panel-body" v-html="element.body">
-									</div>
-									<div class="panel-footer" style="text-align:center; height:28px">
-										<span style="position:relative; bottom: 15px">
-		                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-		                                        <span class="glyphicon glyphicon-trash"></span>
-		                                    </button>
-		                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-		                                        <span class="glyphicon glyphicon-pencil"></span>
-		                                    </button>
-		                                </span>
 									</div>
 								</div>
 							</draggable>
@@ -235,7 +279,14 @@
 						<div v-else>
 							<div v-for="element in currentModel.resources" class="panel panel-info panels">
 								<div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+									<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 								<div class="panel-body" v-html="element.body">
 								</div>
@@ -255,27 +306,32 @@
 						<draggable id="propositions" v-model="currentModel.propositions" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 							<div v-for="element in currentModel.propositions" class="panel panel-info panels">
 								<div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+									<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 								<div class="panel-body" v-html="element.body">
 								</div>
-								<div class="panel-footer" style="text-align:center; height:28px">
-									<span style="position:relative; bottom: 15px">
-	                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-	                                        <span class="glyphicon glyphicon-trash"></span>
-	                                    </button>
-	                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-	                                        <span class="glyphicon glyphicon-pencil"></span>
-	                                    </button>
-	                                </span>
-								</div>
+								
 							</div>
 					    </draggable>
 					</div>
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.propositions" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -295,20 +351,17 @@
 								<draggable id="relationships" v-model="currentModel.relationships" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 									<div v-for="element in currentModel.relationships" class="panel panel-info panels">
 										<div class="panel-heading">
-			                                <h3 class="panel-title" v-html="element.title"></h3>
+											<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 			                            </div>
 										<div class="panel-body" v-html="element.body">
 											
-										</div>
-										<div class="panel-footer" style="text-align:center; height:28px">
-											<span style="position:relative; bottom: 15px">
-			                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-			                                        <span class="glyphicon glyphicon-trash"></span>
-			                                    </button>
-			                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-			                                        <span class="glyphicon glyphicon-pencil"></span>
-			                                    </button>
-			                                </span>
 										</div>
 									</div>
 								</draggable>
@@ -316,7 +369,14 @@
 							<div v-else>
 								<div v-for="element in currentModel.relationships" class="panel panel-info panels">
 									<div class="panel-heading">
-		                                <h3 class="panel-title" v-html="element.title"></h3>
+										<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 		                            </div>
 									<div class="panel-body" v-html="element.body">
 									</div>
@@ -335,19 +395,16 @@
 							<draggable id="channels" v-model="currentModel.channels" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 								<div v-for="element in currentModel.channels" class="panel panel-info panels">
 									<div class="panel-heading">
-		                                <h3 class="panel-title" v-html="element.title"></h3>
+										<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 		                            </div>
 									<div class="panel-body" v-html="element.body">
-									</div>
-									<div class="panel-footer" style="text-align:center; height:28px">
-										<span style="position:relative; bottom: 15px">
-		                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-		                                        <span class="glyphicon glyphicon-trash"></span>
-		                                    </button>
-		                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-		                                        <span class="glyphicon glyphicon-pencil"></span>
-		                                    </button>
-		                                </span>
 									</div>
 								</div>
 							</draggable>
@@ -355,7 +412,14 @@
 						<div v-else>
 							<div v-for="element in currentModel.channels" class="panel panel-info panels">
 								<div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+									<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 								<div class="panel-body" v-html="element.body">
 								</div>
@@ -375,27 +439,32 @@
 						<draggable id="segments" v-model="currentModel.segments" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 							<div v-for="element in currentModel.segments" class="panel panel-info panels">
 								<div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+									<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 								<div class="panel-body" v-html="element.body">
 								</div>
-								<div class="panel-footer" style="text-align:center; height:28px">
-									<span style="position:relative; bottom: 15px">
-	                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-	                                        <span class="glyphicon glyphicon-trash"></span>
-	                                    </button>
-	                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-	                                        <span class="glyphicon glyphicon-pencil"></span>
-	                                    </button>
-	                                </span>
-								</div>
+								
 							</div>
 						</draggable>
 					</div>
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.segments" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -416,27 +485,32 @@
 						<draggable id="cost" v-model="currentModel.cost" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 							<div v-for="element in currentModel.cost" class="panel panel-info panels">
 								<div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+									<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 								<div class="panel-body" v-html="element.body">
 								</div>
-								<div class="panel-footer" style="text-align:center; height:28px">
-									<span style="position:relative; bottom: 15px">
-	                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-	                                        <span class="glyphicon glyphicon-trash"></span>
-	                                    </button>
-	                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-	                                        <span class="glyphicon glyphicon-pencil"></span>
-	                                    </button>
-	                                </span>
-								</div>
+								
 							</div>
 						</draggable>
 					</div>
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.cost" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -455,27 +529,32 @@
 						<draggable id="revenue" v-model="currentModel.revenue" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 							<div v-for="element in currentModel.revenue" class="panel panel-info panels">
 								<div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+									<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 								<div class="panel-body" v-html="element.body">
 								</div>
-								<div class="panel-footer" style="text-align:center; height:28px">
-									<span style="position:relative; bottom: 15px">
-	                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-	                                        <span class="glyphicon glyphicon-trash"></span>
-	                                    </button>
-	                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-	                                        <span class="glyphicon glyphicon-pencil"></span>
-	                                    </button>
-	                                </span>
-								</div>
+								
 							</div>
 						</draggable>
 					</div>
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.revenue" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -497,20 +576,18 @@
 	                    <div class="col-md-6" v-for="element in currentModel.brainstorming">
 	                        <div class="panel panel-info">
 	                            <div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+	                            	<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 	                            <div class="panel-body" v-html="element.body">
 	                            </div>
-	                            <div class="panel-footer" style="text-align:center; height:28px">
-									<span style="position:relative; bottom: 15px">
-	                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-	                                        <span class="glyphicon glyphicon-trash"></span>
-	                                    </button>
-	                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-	                                        <span class="glyphicon glyphicon-pencil"></span>
-	                                    </button>
-	                                </span>
-								</div>
+	                            
 	                        </div>
 	                    </div>
 	                    </draggable>
@@ -518,7 +595,14 @@
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.brainstorming" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -529,7 +613,7 @@
 		</div>
 		<div class="col-md-10" v-else-if="currentModel.type == 'swot'" style="margin-top: 50px">
             <div style="text-align: center; margin:10px">
-                <h2>SWOT Analysis</h2>
+                <h2>@{{ currentModel.name }}</h2>
             </div>
             <div class="col-container" style="min-height: 400px">
                 <div class="col" style="background:#ECECEA; border:2px dashed #67BCDB; padding: 0px; width: 50%;">
@@ -544,20 +628,16 @@
 	                    <draggable id="strengths" v-model="currentModel.strengths" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 	                        <div v-for="(element, index) in currentModel.strengths" class="panel panel-info panels">
 	                            <div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+	                            	<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 	                            <div class="panel-body" v-html="element.body">
-	                                
-	                            </div>
-	                            <div class="panel-footer" style="text-align:center; height:28px">
-	                                <span style="position:relative; bottom: 15px">
-	                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-	                                        <span class="glyphicon glyphicon-trash"></span>
-	                                    </button>
-	                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-	                                        <span class="glyphicon glyphicon-pencil"></span>
-	                                    </button>
-	                                </span>
 	                            </div>
 	                        </div>
 	                    </draggable>
@@ -565,7 +645,14 @@
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.strengths" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -584,20 +671,16 @@
 	                    <draggable id="weakness" v-model="currentModel.weakness" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 	                        <div v-for="element in currentModel.weakness" class="panel panel-info panels">
 	                            <div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+	                            	<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 	                            <div class="panel-body" v-html="element.body">
-	                                
-	                            </div>
-	                            <div class="panel-footer" style="text-align:center; height:28px">
-	                                <span style="position:relative; bottom: 15px">
-	                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-	                                        <span class="glyphicon glyphicon-trash"></span>
-	                                    </button>
-	                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-	                                        <span class="glyphicon glyphicon-pencil"></span>
-	                                    </button>
-	                                </span>
 	                            </div>
 	                        </div>
 	                    </draggable>
@@ -605,7 +688,14 @@
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.weakness" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -626,13 +716,7 @@
 						<draggable id="threats" v-model="currentModel.threats" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 							<div v-for="element in currentModel.threats" class="panel panel-info panels">
 							    <div class="panel-heading">
-							        <h3 class="panel-title" v-html="element.title"></h3>
-							    </div>
-							    <div class="panel-body" v-html="element.body">
-							        
-							    </div>
-							    <div class="panel-footer" style="text-align:center; height:28px">
-							        <span style="position:relative; bottom: 15px">
+							    	<span>
 							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
@@ -641,13 +725,24 @@
 							            </button>
 							        </span>
 							    </div>
+							    <div class="panel-body" v-html="element.body">
+							        
+							    </div>
+							    
 							</div>
 						</draggable>
 					</div>
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.threats" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -666,13 +761,7 @@
 	                    <draggable id="opportunities" v-model="currentModel.opportunities" style="min-height: 250px;" :options="dragOptions" @end="updateSections($event, true)">
 	                        <div v-for="element in currentModel.opportunities" class="panel panel-info panels">
 	                            <div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
-	                            </div>
-	                            <div class="panel-body" v-html="element.body">
-	                                
-	                            </div>
-	                            <div class="panel-footer" style="text-align:center; height:28px">
-							        <span style="position:relative; bottom: 15px">
+	                            	<span>
 							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
 							                <span class="glyphicon glyphicon-trash"></span>
 							            </button>
@@ -680,14 +769,23 @@
 							                <span class="glyphicon glyphicon-pencil"></span>
 							            </button>
 							        </span>
-							    </div>
+	                            </div>
+	                            <div class="panel-body" v-html="element.body">  
+	                            </div>
 	                        </div>
 	                    </draggable>
 	                </div>
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.opportunities" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -711,20 +809,16 @@
 	                    <div class="col-md-6" v-for="element in currentModel.brainstorming">
 	                        <div class="panel panel-info">
 	                            <div class="panel-heading">
-	                                <h3 class="panel-title" v-html="element.title"></h3>
+	                            	<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
 	                            </div>
 	                            <div class="panel-body" v-html="element.body">
-	                                
-	                            </div>
-	                            <div class="panel-footer" style="text-align:center; height:28px">
-	                                <span style="position:relative; bottom: 15px">
-	                                    <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
-	                                        <span class="glyphicon glyphicon-trash"></span>
-	                                    </button>
-	                                    <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
-	                                        <span class="glyphicon glyphicon-pencil"></span>
-	                                    </button>
-	                                </span>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -733,7 +827,14 @@
 					<div v-else style="min-height: 250px;">
 						<div v-for="element in currentModel.brainstorming" class="panel panel-info panels">
 							<div class="panel-heading">
-                                <h3 class="panel-title" v-html="element.title"></h3>
+								<span>
+							            <button class="btn btn-xs" @click="deleteItem(element.id)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
+							                <span class="glyphicon glyphicon-trash"></span>
+							            </button>
+							            <button class="btn btn-xs btn-success" @click="editItem(element, index)" style="border-radius:50%; margin:7px; cursor:pointer;">
+							                <span class="glyphicon glyphicon-pencil"></span>
+							            </button>
+							        </span>
                             </div>
 							<div class="panel-body" v-html="element.body">
 							</div>
@@ -750,8 +851,6 @@
 		<modal name="new-canvas" :click-to-close="clickToClose" scrollable height="auto" width="50%">
 			<div style="margin:20px">
 				<h3>New @{{ newCanvas.type }}</h3>
-				<input class="form-control" v-model="newCanvas.title">
-				<h3>Body</h3>
 				<vue-editor id="new-canvas" v-model="newCanvas.body"></vue-editor>
 				<div style="margin-top:10px">
 					<button class="btn" style="background-color: crimson; color: white" @click="$modal.hide('new-canvas')">Cancel</button>
@@ -759,11 +858,22 @@
 				</div>
 			</div>
 		</modal>
+		<modal name="add-model" :click-to-close="clickToClose" scrollable height="auto" width="50%">
+            <div style="margin:20px">
+                <h3>Select Template</h3>
+                <select v-model="newModel.type" class="form-control">
+                	<option value="swot">SWOT</option>
+                	<option value="canvas">Business Canvas</option>
+                </select>
+                <div style="margin-top:10px">
+                    <button class="btn" style="background-color: crimson; color: white" @click="$modal.hide('add-model')">Cancel</button>
+                    <button class="btn btn-primary pull-right" @click="addNewModel">Add</button>
+                </div>
+            </div>
+        </modal>
 		<modal name="edit-canvas" :click-to-close="clickToClose" scrollable height="auto" width="50%">
             <div style="margin:20px">
                 <h3>Edit @{{ editCanvas.type }}</h3>
-                <input class="form-control" v-model="editCanvas.title">
-                <h3>Body</h3>
                 <vue-editor id="edit-canvas" v-model="editCanvas.body"></vue-editor>
                 <div style="margin-top:10px">
                     <button class="btn" style="background-color: crimson; color: white" @click="$modal.hide('edit-canvas')">Cancel</button>
