@@ -195,7 +195,7 @@
 						</draggable>
 				    </div>
 					<div v-else style="min-height: 250px;">
-						<div v-for="element in currentModel.partners" class="panel panel-info panels">
+						<div v-for="(element, index) in currentModel.partners" class="panel panel-info panels">
 							<div class="panel-heading">
 								<span>
 							            <button class="btn btn-xs" @click="deleteItem(element.id, currentModel.type)" style="color:white; border-radius:50%; margin:7px; cursor:pointer; background-color: crimson">
