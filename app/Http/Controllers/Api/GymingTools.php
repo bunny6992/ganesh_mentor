@@ -219,4 +219,15 @@ class GymingTools extends Controller
         
        return response()->json($data);
     }
+
+    public function saveNewModelName(Request $request) 
+    {
+        $model = ProjectModel::find($request->input('id'));
+        if ($model) {
+            $model->name = $request->input('name');
+            $model->save();
+        }
+
+        return $model;
+    }   
 }

@@ -41,6 +41,24 @@ import draggable from 'vuedraggable';
                 title: '',
                 body: ''
               },
+              newModel: {
+                type: '',
+                index: '',
+                projectId: ''
+              },
+              numbers: [
+                  {
+                      val: 'one',
+                      edit: false
+                  },
+                  { val: 'two',
+                    edit: false
+                  },
+                  {
+                      val: 'three',
+                      edit: false
+                  }
+              ],
               clickToClose: false,
               vueOptions: {},
               sharedProjects: [],
@@ -55,14 +73,41 @@ import draggable from 'vuedraggable';
           this.getProjects();
         },
 
-        methods: {
+        computed: {
+          
+        },
 
+        methods: {
+          w3_open() {
+              document.getElementById("mySidebar").style.display = "block";
+          },
+          w3_close() {
+              document.getElementById("mySidebar").style.display = "none";
+          },
           getProjects() {
             axios.get('/getProjects')
               .then((response) => {
                   this.projects = response.data.projects;
                   var sharedItems = response.data.shared_items;
                   this.sharedProjects = _.groupBy(sharedItems, 'project_id');
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
+          },
+
+          setCurrentProject(project, index) {
+            _.forEach(project.models, (model) => {
+              model.editName = 0;
+            });
+            this.currentProject = project;
+            this.currentProject.index = index;
+          },
+
+          saveNewModelName(model) {
+            axios.post('/saveNewModelName', {id: model.id, name: model.name})
+              .then((response) => {
+                  model.editName = 0;
               })
               .catch(function (error) {
                   console.log(error);
@@ -78,6 +123,11 @@ import draggable from 'vuedraggable';
                   var items = response.data;
                   _.forEach(items, (item) => {
                     this.currentModel[item.type].push({id: item.id, title: item.title, body: item.body, type: item.type});
+                  });
+                  _.forEach(this.currentProject.models, (model) => {
+                    if (model.id == id) {
+                      this.currentModel.name = model.name;
+                    }
                   });
                   this.activeItem = 'item' + id;
               })
@@ -132,7 +182,7 @@ import draggable from 'vuedraggable';
                 axios.post('/addNewProject', {name: result.value, type: 'canvas'})
                   .then((response) => {
                       if (response.data.success) {
-                          this.projects.push({name: response.data.project.name, id: response.data.project.id, models: []});
+                          this.getProjects();
                           this.$swal({
                             title: 'New Project Added!',
                             timer: 1000,
@@ -153,8 +203,9 @@ import draggable from 'vuedraggable';
               return this.activeItem === menuItem;
           },
 
-          addNewProjectModel(id, index, type) {
-            console.log(id);
+          addNewProjectModel(type) {
+            var id = this.currentProject.id;
+            var index = this.currentProject.index;
             this.$swal({
               title: 'Name',
               input: 'text',
@@ -167,7 +218,7 @@ import draggable from 'vuedraggable';
                   .then((response) => {
                       if (response.data.success) {
                         this.setCurrentModel(type);
-                        this.projects[index].models.push({name: response.data.model.name, id: response.data.model.id, type: response.data.model.type});
+                        this.currentProject.models.push({name: response.data.model.name, id: response.data.model.id, type: response.data.model.type});
                         this.currentModel.id = response.data.model.id;
                         this.activeItem = 'item' + this.currentModel.id;           
                         this.$swal({
@@ -194,6 +245,17 @@ import draggable from 'vuedraggable';
               modelId: this.currentModel.id,
             }
             this.$modal.show('new-canvas');
+          },
+
+          showAddNewModel(index, projectId) {
+            this.$modal.show('add-model');
+            this.newModel.index = index;
+            this.newModel.projectId = projectId;
+          },
+
+          addNewModel() {
+            this.$modal.hide('add-model');
+            this.addNewProjectModel(this.newModel.type);
           },
 
           addNewCanvas() {
@@ -362,6 +424,24 @@ import draggable from 'vuedraggable';
             this.currentShareProject = '';
             test.emails.push({value: ''});
             this.currentShareProject = test;
+          },
+
+          showModelDropdown(type) {
+            var flag = 0;
+            if (_.has(this.currentProject, 'models')) {
+              _.forEach(this.currentProject.models, (model) => {
+                if(model.type == type) {
+                  flag = 1;
+                  return false;
+                }
+              });
+            }
+
+            if (flag) {
+              return true;
+            }
+
+            return false;            
           },
 
           drowdownHREF(id) {

@@ -60,6 +60,7 @@
                                         <a href="/gyming-tools">
                                             Business Workout Tools
                                         </a>
+                                        @yield('main-menu')
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
