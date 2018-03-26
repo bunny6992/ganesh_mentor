@@ -10,6 +10,12 @@ let mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+let frontendScripts = [
+    'resources/assets/js/utils/events.js',
+    'resources/assets/js/utils/gtm-tracking.js',
+    'resources/assets/js/utils/mixpanel.js',
+];
 
-mix.js('resources/assets/js/app.js', 'public/js')
+mix.scripts(frontendScripts, 'public/js/utils.js')
+   .js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');

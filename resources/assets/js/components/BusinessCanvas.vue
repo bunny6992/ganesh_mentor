@@ -178,6 +178,8 @@ import draggable from 'vuedraggable';
               confirmButtonText: 'Submit',
               allowOutsideClick: () => !swal.isLoading()
             }).then((result) => {
+              Gym.gtmTracking.addNewProjectButtonClicked();
+              Gym.mixpanel.addNewProjectButtonClicked();
               if (result.value) {
                 axios.post('/addNewProject', {name: result.value, type: 'canvas'})
                   .then((response) => {
@@ -217,6 +219,8 @@ import draggable from 'vuedraggable';
                 axios.post('/addNewProjectModel', {name: result.value, projectId: id, type: type})
                   .then((response) => {
                       if (response.data.success) {
+                        Gym.gtmTracking.newModelCreated(type);
+                        Gym.mixpanel.newModelCreated(type);
                         this.setCurrentModel(type);
                         this.currentProject.models.push({name: response.data.model.name, id: response.data.model.id, type: response.data.model.type});
                         this.currentModel.id = response.data.model.id;
@@ -254,6 +258,7 @@ import draggable from 'vuedraggable';
           },
 
           addNewModel() {
+            console.log(this.newModel.type);
             this.$modal.hide('add-model');
             this.addNewProjectModel(this.newModel.type);
           },

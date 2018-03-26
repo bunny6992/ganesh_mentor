@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/swot', 'SWOTController@index')->name('swot');
 	Route::post('/saveSWOT', 'SWOTController@save');
 	Route::get('/getSWOT', 'SWOTController@retrieve');
-	Route::get('/gyming-tools', 'GymingTools@index');
+	Route::get('/gyming-tools', 'GymingTools@index')->name('gyming-tools');
 	Route::post('/addNewProject', 'Api\GymingTools@addNewProject');
 	Route::post('/addNewProjectModel', 'Api\GymingTools@addNewProjectModel');
 	Route::post('/addNewModelItem', 'Api\GymingTools@addNewModelItem');

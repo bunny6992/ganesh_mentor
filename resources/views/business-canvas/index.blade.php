@@ -1,107 +1,106 @@
-@extends('layouts.index')
+@extends('layouts.app')
 
 @section('content')
-	
 	<business-canvas inline-template>        
 	<div class="row">
 			<nav class="navbar navbar-default navbar-static-top" style="margin:0px">
-            <div class="container">
-                <div class="navbar-header">
+                <div class="container">
+                    <div class="navbar-header">
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+                        <!-- Collapsed Hamburger -->
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
+                            <span class="sr-only">Toggle Navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        Founder's Gym
-                    </a>
+                        <!-- Branding Image -->
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            Founder's Gym
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                        <!-- Left Side Of Navbar -->
+                        <ul class="nav navbar-nav">
+                            &nbsp;
+                        </ul>
+
+                        <!-- Right Side Of Navbar -->
+                        <ul class="nav navbar-nav navbar-right gym-navbar">
+                            <!-- Authentication Links -->
+                            @guest
+                                <li><a href="{{ route('login') }}">Login</a></li>
+                                <li><a href="{{ route('register') }}">Register</a></li>
+                            @else
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                        {{ Auth::user()->name }}
+                                    </a>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="" class="gtm-business-workout-tools-btn" data-href="/gyming-tools">
+                                                Business Workout Tools
+                                            </a>
+                                        </li>
+                                        <li class="project-dropdown">
+                                        	{{-- <div> --}}
+    										  <a href="#">My Projects</a>
+    										  <div class="dropdown-content my-dropdown">
+    										    <a href="#" @click="addNewProject()">Add New</a>
+    										    <a v-for="(project, index) in projects" @click="setCurrentProject(project)">@{{ project.name }}
+    										    </a>
+    										  </div>
+    										{{-- </div> --}}
+                                        </li>
+                                        <li class="project-dropdown">
+                                        	
+    										  <a href="#">Shared Projects</a>
+    										  <div class="dropdown-content shared-dropdown">
+    										  	<a v-if="sharedProjects">
+                                        		Nothing's here yet
+                                        	</a>
+    										    <a v-for="(project, index) in sharedProjects">@{{ project[0].project_name }}</a>
+    										  </div>
+                                        </li>
+                                        <li>
+    				                        <a href="#">
+    				                            <i class="glyphicon glyphicon-tag"></i>
+    				                            About
+    				                        </a>
+    				                    </li>
+    				                    <li>
+    				                        <a href="#">
+    				                            <i class="glyphicon glyphicon-paperclip"></i>
+    				                            FAQ
+    				                        </a>
+    				                    </li>
+    				                    <li>
+    				                        <a href="#">
+    				                            <i class="glyphicon glyphicon-send"></i>
+    				                            Contact
+    				                        </a>
+    				                    </li>
+                                        <li>
+                                            <a href="{{ route('logout') }}"
+                                                onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                {{ csrf_field() }}
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endguest
+                        </ul>
+                    </div>
                 </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right gym-navbar">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="/gyming-tools">
-                                            Business Workout Tools
-                                        </a>
-                                    </li>
-                                    <li class="project-dropdown">
-                                    	{{-- <div> --}}
-										  <a href="#">My Projects</a>
-										  <div class="dropdown-content my-dropdown">
-										    <a href="#" @click="addNewProject()">Add New</a>
-										    <a v-for="(project, index) in projects" @click="setCurrentProject(project)">@{{ project.name }}
-										    </a>
-										  </div>
-										{{-- </div> --}}
-                                    </li>
-                                    <li class="project-dropdown">
-                                    	
-										  <a href="#">Shared Projects</a>
-										  <div class="dropdown-content shared-dropdown">
-										  	<a v-if="sharedProjects">
-                                    		Nothing's here yet
-                                    	</a>
-										    <a v-for="(project, index) in sharedProjects">@{{ project[0].project_name }}</a>
-										  </div>
-                                    </li>
-                                    <li>
-				                        <a href="#">
-				                            <i class="glyphicon glyphicon-tag"></i>
-				                            About
-				                        </a>
-				                    </li>
-				                    <li>
-				                        <a href="#">
-				                            <i class="glyphicon glyphicon-paperclip"></i>
-				                            FAQ
-				                        </a>
-				                    </li>
-				                    <li>
-				                        <a href="#">
-				                            <i class="glyphicon glyphicon-send"></i>
-				                            Contact
-				                        </a>
-				                    </li>
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
+            </nav>
 		<div class="col-md-2">
 			<nav id="sidebar" style="background-color: #6d7fcc;margin-bottom: 0px !important; height:2000px;">
                 <button type="button" id="sidebarCollapse" class="hidden btn btn-info navbar-btn" @click="toggleSideBar()">
@@ -138,13 +137,13 @@
 					  </div>
                 </li>
                 <li>
-	                <a :href="'/gantt-app?projectName=' + currentProject.name + '&projectId=' + currentProject.id" target="_blank">
+	                <a class="gtm-project-gantt-chart-link" :data-href="'/gantt-app?projectName=' + currentProject.name + '&projectId=' + currentProject.id" target="_blank">
 	                    <i class="glyphicon glyphicon-equalizer"></i>
 	                    Gantt Chart
 	                </a>
 	            </li>
 	            <li>
-	                <a :href="'/my-project-resources?projectName=' + currentProject.name + '&projectId=' + currentProject.id" target="_blank">
+	                <a class="gtm-project-resources-link" :data-href="'/my-project-resources?projectName=' + currentProject.name + '&projectId=' + currentProject.id" target="_blank">
 	                    <i class="glyphicon glyphicon-user"></i>
 	                    My Resources
 	                </a>
